@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotale - Navbar</title>
+</head>
+<body>
+<!-- Fragment cho Navbar -->
+<div th:fragment="navbar">
+    <div class="top-bar">
+        <span>☎ +024 242 0777</span>
+        <a href="mailto:info@webhotel.vn">✉ info@webhotel.vn</a>
+    </div>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="nav-links left-links">
+                <a th:href="@{/}">HOME</a>
+                <a href="">ABOUT US</a>
+                <a href="">GALLERY</a>
+                <a href="">SERVICES</a>
+            </div>
+            <div class="logo-container">
+                <img src="https://res.cloudinary.com/dd8ryf97c/image/upload/v1745501463/yhjpcnwoxmdcos6q8aui.png" class="logo" alt="Hotale Logo">
+            </div>
+            <div class="nav-links right-links">
+            <a href="#">BLOGS</a>
+            <a th:href="@{/login-page}">Login</a>
+            <div class="language-switcher-container">
+                <button class="language-switcher">LANGUAGE</button>
+                <div class="language-dropdown">
+                    <a href="#" class="language-option">English</a>
+                    <a href="#" class="language-option">Vietnamese</a>
+                </div>
+            </div>
+            <button class="book-now-btn">BOOK NOW</button>
+        </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>
