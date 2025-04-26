@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotale - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/navbar.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .login-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7); /* Nền trong suốt nhẹ */
+            padding: 40px;
+            border-radius: 5px;
+            color: white;
+            text-align: center;
+            width: 400px;
+            max-width: 90%;
+        }
+        .login-container h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .login-form input {
+            padding: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            border: none;
+            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        .login-form input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .login-form button {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            background-color: #c8a97e; /* Màu giống nút BOOK NOW */
+            padding: 12px 25px;
+            border: none;
+            border-radius: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .login-form button:hover {
+            background-color: #b6986d; /* Hiệu ứng hover giống nút BOOK NOW */
+        }
+        .login-form a {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            color: #c8a97e;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .login-form a:hover {
+            color: #b6986d;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="video-container">
+    <video
+            src="https://res.cloudinary.com/dd8ryf97c/video/upload/siqzcaha4dbynmy4otyy.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
+    ></video>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form class="login-form">
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">LOGIN</button>
+            <a href="#">Forgot Password?</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        checkScroll();
+        window.addEventListener('scroll', checkScroll);
+
+        function checkScroll() {
+            console.log("Scroll event triggered");
+            console.log("Current pageYOffset:", window.pageYOffset);
+            const navbar = document.querySelector('.navbar');
+            const topBar = document.querySelector('.top-bar');
+
+            if (window.pageYOffset > 20) {
+                navbar.classList.add('scrolled');
+                topBar.classList.add('scrolled');
+                console.log("Scrolled class added");
+            } else {
+                navbar.classList.remove('scrolled');
+                topBar.classList.remove('scrolled');
+                console.log("Scrolled class removed");
+            }
+        }
+        console.log("Initial pageYOffset:", window.pageYOffset);
+    });
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'935d971d4dae6738',t:'MTc0NTU4MTQ4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>

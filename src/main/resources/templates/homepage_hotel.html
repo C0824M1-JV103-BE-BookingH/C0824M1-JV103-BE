@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotale - Luxury Hotel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/navbar.css}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      overflow-x: hidden;
+      /* Xóa height: 100% */
+    }
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .content {
+      height: 2000px; /* Tăng để đảm bảo cuộn */
+      background-color: #f9f9f9;
+      padding: 50px;
+      text-align: center;
+    }
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+    }
+    .hero-text p {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .hero-text h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 48px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="video-container">
+  <video
+          src="https://res.cloudinary.com/dd8ryf97c/video/upload/siqzcaha4dbynmy4otyy.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+  ></video>
+  <div class="hero-text">
+    <p>Book Your Vacation</p>
+    <h1>Explore new experience</h1>
+  </div>
+</div>
+
+<div class="content">
+  <h1>Nội dung trang web</h1>
+  <p>Cuộn xuống để xem hiệu ứng navbar</p>
+</div>
+
+<script>
+  // Chức năng scroll được cải tiến
+  document.addEventListener('DOMContentLoaded', function() {
+    checkScroll();
+    window.addEventListener('scroll', checkScroll);
+
+    function checkScroll() {
+      console.log("Scroll event triggered");
+      console.log("Current pageYOffset:", window.pageYOffset);
+      const navbar = document.querySelector('.navbar');
+      const topBar = document.querySelector('.top-bar');
+
+      if (window.pageYOffset > 20) {
+        navbar.classList.add('scrolled');
+        topBar.classList.add('scrolled');
+        console.log("Scrolled class added");
+      } else {
+        navbar.classList.remove('scrolled');
+        topBar.classList.remove('scrolled');
+        console.log("Scrolled class removed");
+      }
+    }
+    console.log("Initial pageYOffset:", window.pageYOffset);
+  });
+  // Language switcher dropdown
+  document.addEventListener('DOMContentLoaded', function() {
+    const languageButton = document.querySelector('.language-switcher');
+    const languageDropdown = document.querySelector('.language-dropdown');
+
+    // Toggle dropdown khi bấm nút
+    languageButton.addEventListener('click', function(event) {
+      event.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
+      languageDropdown.classList.toggle('active');
+    });
+
+    // Đóng dropdown khi bấm ra ngoài
+    document.addEventListener('click', function(event) {
+      if (!languageButton.contains(event.target) && !languageDropdown.contains(event.target)) {
+        languageDropdown.classList.remove('active');
+      }
+    });
+
+    // Các mã JavaScript khác (checkScroll) giữ nguyên
+    checkScroll();
+    window.addEventListener('scroll', checkScroll);
+
+    function checkScroll() {
+      console.log("Scroll event triggered");
+      console.log("Current pageYOffset:", window.pageYOffset);
+      const navbar = document.querySelector('.navbar');
+      const topBar = document.querySelector('.top-bar');
+
+      if (window.pageYOffset > 20) {
+        navbar.classList.add('scrolled');
+        topBar.classList.add('scrolled');
+        console.log("Scrolled class added");
+      } else {
+        navbar.classList.remove('scrolled');
+        topBar.classList.remove('scrolled');
+        console.log("Scrolled class removed");
+      }
+    }
+    console.log("Initial pageYOffset:", window.pageYOffset);
+  });
+</script>
+</body>
+</html>

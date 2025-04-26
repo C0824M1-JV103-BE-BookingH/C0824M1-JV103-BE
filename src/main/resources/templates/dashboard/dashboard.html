@@ -141,15 +141,7 @@
 <body>
 <div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
 
-<div class="main-content" id="mainContent">
-  <div class="header">
-    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
-    <input type="text" placeholder="Search">
-    <div class="profile">
-      <span>Admin</span>
-      <img src="https://via.placeholder.com/40" alt="Profile">
-    </div>
-  </div>
+
 
   <div class="stats">
     <div class="stat-card">
@@ -173,19 +165,6 @@
   </div>
 </div>
 
-<script>
-  // Hàm toggle sidebar
-  function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar-container');
-    const mainContent = document.getElementById('mainContent');
-    if (sidebar.style.display === 'none') {
-      sidebar.style.display = 'block';
-      mainContent.classList.remove('collapsed');
-    } else {
-      sidebar.style.display = 'none';
-      mainContent.classList.add('collapsed');
-    }
-  }
-</script>
+
 </body>
 </html>
