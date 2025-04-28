@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/navbar.css}">
+  <link rel="stylesheet" th:href="@{/hotelhomecss.css}">
   <style>
     * {
       margin: 0;
@@ -33,7 +34,7 @@
     .content {
       height: 2000px; /* Tăng để đảm bảo cuộn */
       background-color: #f9f9f9;
-      padding: 50px;
+      padding: 20px;
       text-align: center;
     }
     .hero-text {
@@ -74,8 +75,17 @@
 </div>
 
 <div class="content">
-  <h1>Nội dung trang web</h1>
-  <p>Cuộn xuống để xem hiệu ứng navbar</p>
+  <div class="hotel-container">
+    <div th:each="hotel : ${list}" class="hotel-card">
+      <div class="hotel-info">
+        <h2 th:text="${hotel.name}">Hotel Name</h2>
+        <p class="hotel-description" th:text="${hotel.description}">Description</p>
+      </div>
+      <div class="hotel-image-gallery">
+          <img th:src="${hotel.imageUrl}" alt="Hotel Image 1" class="hotel-image">
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
