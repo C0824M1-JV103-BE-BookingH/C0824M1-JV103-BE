@@ -23,6 +23,8 @@ public class Room {
     public enum Status {
         available, booked, maintenance
     }
+    @Column(name = "image_url")
+    private String imageUrl;
 
     // Getters and Setters
     public Integer getId() { return id; }
@@ -33,4 +35,12 @@ public class Room {
     public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

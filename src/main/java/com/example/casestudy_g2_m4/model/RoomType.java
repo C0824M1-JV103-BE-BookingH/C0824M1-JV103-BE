@@ -21,6 +21,9 @@ public class RoomType {
     @Column(name = "max_people", nullable = false)
     private Integer maxPeople;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     // Getters and Setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -32,4 +35,12 @@ public class RoomType {
     public void setPrice(Double price) { this.price = price; }
     public Integer getMaxPeople() { return maxPeople; }
     public void setMaxPeople(Integer maxPeople) { this.maxPeople = maxPeople; }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
