@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Đặt Phòng</title>
+    <style>
+
+    </style>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
+<div class="container mt-5">
+    <h2>Add Booking</h2>
+    <!-- Hiển thị thông báo thành công hoặc lỗi -->
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <!-- Form nhập liệu -->
+    <form th:action="@{/add_booking}" th:object="${bookingDTO}" method="post">
+        <div class="form-group">
+            <label>User Name</label>
+<!--            <select class="form-control" id="user-id" th:field="*{user.id}" >-->
+<!--                <option value="">Chọn Người Dùng</option>-->
+<!--                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}"></option>-->
+<!--            </select>-->
+            <input type="text" class="form-control mt-2" id="user-id" th:field="*{userName}" placeholder="Enter user name" />
+        </div>
+        <div class="form-group">
+            <label for="room-type-name">Room Type (Enter)</label>
+            <input type="text" class="form-control" id="room-type-name" th:field="*{roomType}" placeholder="Enter room type (Standard Room, Deluxe Room, Suite)" required />
+        </div>
+        <div class="form-group">
+            <label for="checkIn">Check-in Date</label>
+            <input type="datetime-local" class="form-control" id="checkIn" th:field="*{checkIn}" required />
+        </div>
+        <div class="form-group">
+            <label for="checkOut">Check-out Date</label>
+            <input type="datetime-local" class="form-control" id="checkOut" th:field="*{checkOut}" required />
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Add Booking</button>
+            <a th:href="@{/list_booking}" class="btn btn-secondary">
+                Quay lại
+            </a>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

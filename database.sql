@@ -54,4 +54,9 @@ INSERT INTO support_requests (user_id, subject, message, created_at) VALUES
 (4, 'Refund Request', 'Please process my refund for cancelled booking.', '2025-04-25 08:00:00'),
 (3, 'Room Complaint', 'The AC in my room is not working properly.', '2025-04-24 09:00:00');
 
-SELECT * FROM bookings;
+			
+SELECT * FROM users;
+DELETE FROM bookings WHERE id > 4;
+
+ALTER TABLE bookings AUTO_INCREMENT = 5;
+
