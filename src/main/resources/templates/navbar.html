@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,12 @@
             </div>
             <div class="nav-links right-links">
             <a href="#">BLOGS</a>
-            <a th:href="@{/login-page}">Login</a>
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}" class="logout-btn">Logout</a>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <a th:href="@{/login}" class="login-btn">Login</a>
+                </div>
             <div class="language-switcher-container">
                 <button class="language-switcher">LANGUAGE</button>
                 <div class="language-dropdown">

@@ -13,10 +13,10 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     private String phone;
@@ -28,6 +28,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+
+    public User(Role role) {
+        this.role = role;
+    }
+
+    public User() {
+
+    }
 
     public enum Role {
         admin, staff, customer

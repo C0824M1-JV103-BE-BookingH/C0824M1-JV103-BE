@@ -22,6 +22,16 @@ public class Hotel {
     private String description;
 
     private Long hotline;
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     // Getters and Setters
     public Integer getId() { return id; }

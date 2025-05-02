@@ -2,6 +2,8 @@ package com.example.casestudy_g2_m4.model;
 
 import jakarta.persistence.*;
 
+import java.util.Random;
+
 @Entity
 @Table(name = "rooms")
 public class Room {
@@ -23,6 +25,8 @@ public class Room {
     public enum Status {
         available, booked, maintenance
     }
+    @Column(name = "image_url")
+    private String imageUrl;
 
     // Getters and Setters
     public Integer getId() { return id; }
@@ -33,4 +37,19 @@ public class Room {
     public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    private static final Random random = new Random();
+    public static String generateRoomNumber(int floor) {
+        int start = floor * 100 + 1;
+        int end = floor * 100 + 99;
+        int number = random.nextInt(end - start + 1) + start;
+        return String.valueOf(number);
+    }
 }
