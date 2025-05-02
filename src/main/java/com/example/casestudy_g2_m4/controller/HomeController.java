@@ -1,9 +1,8 @@
 package com.example.casestudy_g2_m4.controller;
 
 import com.example.casestudy_g2_m4.model.Hotel;
-import com.example.casestudy_g2_m4.service.IHotelService;
+import com.example.casestudy_g2_m4.service.hotel.IHotelService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

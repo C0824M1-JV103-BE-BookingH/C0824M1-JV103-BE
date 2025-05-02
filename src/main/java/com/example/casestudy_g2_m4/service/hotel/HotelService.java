@@ -1,4 +1,4 @@
-package com.example.casestudy_g2_m4.service;
+package com.example.casestudy_g2_m4.service.hotel;
 
 import com.example.casestudy_g2_m4.model.Hotel;
 import com.example.casestudy_g2_m4.repository.IHotelRepository;

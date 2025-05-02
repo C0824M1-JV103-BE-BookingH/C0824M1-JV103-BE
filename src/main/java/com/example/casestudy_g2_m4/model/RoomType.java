@@ -20,50 +20,21 @@ public class RoomType {
 
     @Column(name = "max_people", nullable = false)
     private Integer maxPeople;
+
     @Column(name = "image_url")
     private String imageUrl;
 
     // Getters and Setters
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Integer getMaxPeople() {
-        return maxPeople;
-    }
-
-    public void setMaxPeople(Integer maxPeople) {
-        this.maxPeople = maxPeople;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public Double getPrice() { return price; }
+    public void setPrice(Double price) { this.price = price; }
+    public Integer getMaxPeople() { return maxPeople; }
+    public void setMaxPeople(Integer maxPeople) { this.maxPeople = maxPeople; }
 
     public String getImageUrl() {
         return imageUrl;
