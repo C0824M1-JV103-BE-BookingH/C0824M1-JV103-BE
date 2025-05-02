@@ -22,9 +22,4 @@ public class HomeController {
         model.addAttribute("list",list);
         return "homepage_hotel";
     }
-
-    @GetMapping("login-page")
-    public String login(){
-        return "login_page";
-    }
 }

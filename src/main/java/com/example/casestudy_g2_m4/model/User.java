@@ -29,6 +29,14 @@ public class User {
     @Column(nullable = false)
     private Status status;
 
+    public User(Role role) {
+        this.role = role;
+    }
+
+    public User() {
+
+    }
+
     public enum Role {
         admin, staff, customer
     }
