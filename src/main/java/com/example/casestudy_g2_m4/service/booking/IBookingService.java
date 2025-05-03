@@ -17,4 +17,6 @@ public interface IBookingService {
     Optional<Booking> findBookingById(Integer id);
 
     void updateBooking(BookingDTO bookingDTO);
+
+    void deleteBooking(Integer id);
 }

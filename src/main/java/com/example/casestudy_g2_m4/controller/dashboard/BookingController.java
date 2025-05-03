@@ -99,5 +99,15 @@ public class BookingController {
 
         return "redirect:/list_booking";
     }
+    @GetMapping("delete_booking/{id}")
+    public String deleteBooking(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            bookingService.deleteBooking(id);
+            redirectAttributes.addFlashAttribute("message", "Booking deleted successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to delete booking: " + e.getMessage());
+        }
+        return "redirect:/list_booking";
+    }
+    }
 
-}
