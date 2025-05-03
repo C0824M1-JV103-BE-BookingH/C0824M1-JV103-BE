@@ -18,7 +18,6 @@
     html, body {
       width: 100%;
       overflow-x: hidden;
-      /* Xóa height: 100% */
     }
     .video-container {
       position: relative;
@@ -32,7 +31,7 @@
       display: block;
     }
     .content {
-      height: 2000px; /* Tăng để đảm bảo cuộn */
+      height: 2000px;
       background-color: #f9f9f9;
       padding: 20px;
       text-align: center;
@@ -69,68 +68,27 @@
           playsinline
   ></video>
   <div class="hero-text">
-    <p>Book Your Vacation</p>
-    <h1>Explore new experience</h1>
+    <p th:text="#{app.text1}">Book Your Vacation</p>
+    <h1 th:text="#{app.text2}">Explore new experience</h1>
   </div>
 </div>
 
 <div class="content">
   <div class="hotel-container">
-    <div th:each="hotel : ${list}" class="hotel-card">
+    <div class="hotel-card">
       <div class="hotel-info">
-        <h2 th:text="${hotel.name}">Hotel Name</h2>
-        <p class="hotel-description" th:text="${hotel.description}">Description</p>
+        <h2 th:text="#{app.nameHotel}">Hotel Name</h2>
+        <p class="hotel-description" th:text="#{app.desHotel}">Description</p>
       </div>
       <div class="hotel-image-gallery">
-          <img th:src="${hotel.imageUrl}" alt="Hotel Image 1" class="hotel-image">
+        <img th:src="${list[0]?.imageUrl}" alt="Hotel Image 1" class="hotel-image">
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  // Chức năng scroll được cải tiến
   document.addEventListener('DOMContentLoaded', function() {
-    checkScroll();
-    window.addEventListener('scroll', checkScroll);
-
-    function checkScroll() {
-      console.log("Scroll event triggered");
-      console.log("Current pageYOffset:", window.pageYOffset);
-      const navbar = document.querySelector('.navbar');
-      const topBar = document.querySelector('.top-bar');
-
-      if (window.pageYOffset > 20) {
-        navbar.classList.add('scrolled');
-        topBar.classList.add('scrolled');
-        console.log("Scrolled class added");
-      } else {
-        navbar.classList.remove('scrolled');
-        topBar.classList.remove('scrolled');
-        console.log("Scrolled class removed");
-      }
-    }
-    console.log("Initial pageYOffset:", window.pageYOffset);
-  });
-  // Language switcher dropdown
-  document.addEventListener('DOMContentLoaded', function() {
-    const languageButton = document.querySelector('.language-switcher');
-    const languageDropdown = document.querySelector('.language-dropdown');
-
-    // Toggle dropdown khi bấm nút
-    languageButton.addEventListener('click', function(event) {
-      event.stopPropagation(); // Ngăn sự kiện click lan ra ngoài
-      languageDropdown.classList.toggle('active');
-    });
-
-    // Đóng dropdown khi bấm ra ngoài
-    document.addEventListener('click', function(event) {
-      if (!languageButton.contains(event.target) && !languageDropdown.contains(event.target)) {
-        languageDropdown.classList.remove('active');
-      }
-    });
-
-    // Các mã JavaScript khác (checkScroll) giữ nguyên
     checkScroll();
     window.addEventListener('scroll', checkScroll);
 
