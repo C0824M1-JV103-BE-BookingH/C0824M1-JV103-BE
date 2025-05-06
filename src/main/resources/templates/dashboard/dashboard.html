@@ -135,7 +135,7 @@
 <div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
 <div class="main-content">
   <div class="chart-card">
-    <h3>Monthly Revenue</h3>
+    <h3 th:text="#{app.revenue}">Monthly Revenue</h3>
     <canvas id="revenueChart"></canvas>
   </div>
   <div th:if="${revenueData == null or revenueData.isEmpty()}">Không có dữ liệu doanh thu cho khoảng thời gian đã chọn.</div>
