@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotale - Navbar</title>
+    <style>
+        body {
+            font-family: Arial, "Times New Roman", sans-serif;
+        }
+    </style>
 </head>
 <body>
 <!-- Fragment cho Navbar -->
@@ -24,12 +29,12 @@
                 <img src="https://res.cloudinary.com/dd8ryf97c/image/upload/v1745501463/yhjpcnwoxmdcos6q8aui.png" class="logo" alt="Hotale Logo">
             </div>
             <div class="nav-links right-links">
-                <a href="#">BLOGS</a>
+                <a th:text="#{app.blog}" href="#">BLOGS</a>
                 <div sec:authorize="isAuthenticated()">
-                    <a th:href="@{/logout}" class="logout-btn">Logout</a>
+                    <a th:text="#{app.logout}" th:href="@{/logout}" class="logout-btn">Logout</a>
                 </div>
                 <div sec:authorize="isAnonymous()">
-                    <a th:href="@{/login}" class="login-btn">Login</a>
+                    <a th:text="#{app.Login}" th:href="@{/login}" class="login-btn">Login</a>
                 </div>
                 <div class="language-switcher-container">
                     <button class="language-switcher" th:text="#{app.language}">LANGUAGE</button>
