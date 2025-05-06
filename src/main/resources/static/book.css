@@ -1,0 +1,247 @@
+/* Top bar styles */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.top-bar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.top-bar.scrolled {
+    background: #333;
+    color: white;
+}
+
+.top-bar.scrolled a {
+    color: white;
+}
+
+/* Navbar styles */
+.navbar {
+    position: fixed;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    padding: 25px 0; /* Tăng từ 20px để chứa logo lớn hơn */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+.navbar.scrolled {
+    background-color: white !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid white;
+    padding: 20px 0; /* Tăng từ 15px để chứa logo lớn hơn */
+}
+
+.navbar-container {
+    width: 85%;
+    max-width: 1400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* Logo styles */
+.logo-container {
+    position: absolute;
+    left: 45%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 110;
+    width: 200px; /* Tăng từ 150px để chứa logo lớn hơn */
+}
+
+.logo {
+    height: 200px; /* Tăng từ 80px để logo to hơn */
+    width: auto;
+    transition: all 0.3s ease;
+    filter: brightness(0.1) contrast(120%);
+}
+
+.navbar.scrolled .logo {
+    filter: none !important;
+}
+
+/* Navigation links */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.left-links,
+.right-links {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    max-width: 40%;
+}
+
+.nav-links a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    position: relative;
+    display: inline-block;
+    padding: 5px 0;
+}
+
+.navbar.scrolled .nav-links a {
+    color: #333 !important;
+}
+
+.nav-links a:hover {
+    color: #c8a97e;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #c8a97e;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Buttons */
+.language-switcher {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background: none;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 5px 10px;
+}
+
+.navbar.scrolled .language-switcher {
+    color: #333 !important;
+}
+
+.book-now-btn {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background-color: #c8a97e;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 20px;
+}
+
+.book-now-btn:hover {
+    background-color: #b6986d;
+}
+/* Language switcher container */
+.language-switcher-container {
+    position: relative; /* Để dropdown hiển thị tương đối với nút */
+}
+
+/* Language switcher button */
+.language-switcher {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+    background: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 5px 10px;
+}
+
+.navbar.scrolled .language-switcher {
+    color: #333 !important;
+}
+
+/* Language dropdown */
+.language-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 9px;
+    border-radius: 2px;
+    z-index: 1000;
+    min-width: 100px;
+}
+.language-switcher-container:hover .language-dropdown {
+    display: block;
+}
+
+.language-dropdown.active {
+    display: block; /* Hiển thị khi có class active */
+}
+
+
+/* Language options */
+.language-option {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    transition: background-color 0.3s ease;
+}
+
+/* Responsive fixes */
+@media (max-width: 1200px) {
+    .nav-links {
+        gap: 20px;
+    }
+
+    .nav-links a {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-container {
+        width: 95%;
+    }
+}

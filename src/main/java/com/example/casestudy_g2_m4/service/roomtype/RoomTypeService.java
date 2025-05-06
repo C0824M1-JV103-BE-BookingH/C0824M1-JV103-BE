@@ -5,11 +5,18 @@ import com.example.casestudy_g2_m4.repository.IRoomtypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class RoomTypeService implements IRoomTypeService {
     @Autowired
     private IRoomtypeRepository roomtypeRepository;
+
+    @Override
+    public List<RoomType> findAllRoomType() {
+        return roomtypeRepository.findAll();
+    }
+
     @Override
     public RoomType save(RoomType roomType) {
         return roomtypeRepository.save(roomType);
