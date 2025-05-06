@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <title>Hotel Admin Dashboard</title>
+
   <style>
     * {
       margin: 0;
@@ -100,34 +102,9 @@
       color: #fff;
     }
 
-    .stats {
-      display: flex;
-      gap: 20px;
-    }
 
-    .stat-card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      flex: 1;
-      text-align: center;
-    }
 
-    .stat-card h4 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
 
-    .stat-card p {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .stat-card .change {
-      font-size: 14px;
-    }
 
     .stat-card .change.positive {
       color: #2ecc71;
@@ -136,31 +113,71 @@
     .stat-card .change.negative {
       color: #e74c3c;
     }
+    .chart-card h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    canvas {
+      max-width: 800px;
+      margin-top: 20px;
+    }
+    .chart-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
   </style>
 </head>
 <body>
 <div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
-  <div class="stats">
-    <div class="stat-card">
-      <h4>Guests</h4>
-      <p>245</p>
-      <p>Feb 1 - Apr 1, 2025</p>
-      <p class="change positive">+15% Since last month</p>
-    </div>
-    <div class="stat-card">
-      <h4>Revenue</h4>
-      <p>$12,345</p>
-      <p>Feb 1 - Apr 1, 2025</p>
-      <p class="change negative">-2% Since last month</p>
-    </div>
-    <div class="stat-card">
-      <h4>Occupancy Rate</h4>
-      <p>75.6%</p>
-      <p>Feb 1 - Apr 1, 2025</p>
-      <p class="change positive">+5% Since last month</p>
-    </div>
+<div class="main-content">
+  <div class="chart-card">
+    <h3>Monthly Revenue</h3>
+    <canvas id="revenueChart"></canvas>
   </div>
+  <div th:if="${revenueData == null or revenueData.isEmpty()}">Không có dữ liệu doanh thu cho khoảng thời gian đã chọn.</div>
 </div>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  const revenueData = [[${revenueData}]];
+  console.log('Dữ liệu doanh thu:', revenueData);
+
+  const labels = Object.keys(revenueData);
+  const data = Object.values(revenueData);
+
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Doanh thu ($)',
+        data: data,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return '$' + value;
+            }
+          }
+        }
+      }
+    }
+  });
+  /*]]>*/
+</script>
+
 
 
 </body>

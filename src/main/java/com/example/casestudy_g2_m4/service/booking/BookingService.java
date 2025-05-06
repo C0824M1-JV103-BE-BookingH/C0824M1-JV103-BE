@@ -153,5 +153,15 @@ public class BookingService implements IBookingService {
     public void deleteBooking(Integer id) {
         bookingRepository.deleteById(id);
     }
+
+    @Override
+    public List<BookingDTO> search(String keyword, LocalDateTime checkIn, LocalDateTime checkOut, LocalDateTime createdAt) {
+        return bookingRepository.searchByKeyword(keyword, checkIn, checkOut, createdAt)
+                .stream()
+                .map(BookingDTO::new)
+                .collect(Collectors.toList());
+    }
+
+
 }
 

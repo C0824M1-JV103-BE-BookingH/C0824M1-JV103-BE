@@ -7,6 +7,7 @@ import com.example.casestudy_g2_m4.service.roomtype.IRoomTypeService;
 import com.example.casestudy_g2_m4.service.user.IUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -32,13 +34,65 @@ public class BookingController {
     @Autowired
     private IRoomTypeService roomTypeService;
 
+//    @GetMapping("list_booking")
+//    public ModelAndView listBooking(@RequestParam(required = false) @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm") LocalDateTime checkIn,
+//                                    @RequestParam(required = false) @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm") LocalDateTime checkOut) {
+//        ModelAndView modelAndView = new ModelAndView("dashboard/booking/list_booking");
+//        List<Booking> bookings;
+//        List<BookingDTO> bookingDTOs;
+//        bookingDTOs = bookingService.findAllBooking();
+//        // Kiểm tra nếu checkIn lớn hơn checkOut
+//        if (checkIn != null && checkOut != null && checkIn.isAfter(checkOut)) {
+//            modelAndView.addObject("error", "Check-in date must be before check-out date");
+//            bookingDTOs = bookingService.findAllBooking();
+//        } else if (checkIn != null && checkOut != null) {
+//            bookings = bookingService.findBookingByDateRange(checkIn, checkOut);
+//            logger.info("Searching bookings by date range: checkIn={}, checkOut={}", checkIn, checkOut);
+//
+//            bookingDTOs = bookings.stream()
+//                    .map(BookingDTO::new)
+//                    .collect(Collectors.toList());
+//        } else {
+//            bookingDTOs = bookingService.findAllBooking();
+//            logger.info("Displaying all bookings");
+//        }
+//
+//        logger.info("Number of bookings: {}", bookingDTOs.size());
+//        if (bookingDTOs.isEmpty()) {
+//            logger.warn("No bookings found");
+//        } else {
+//            bookingDTOs.forEach(dto -> logger.debug("Booking DTO - id: {}, checkIn: {}, checkOut: {}, createdAt: {}",
+//                    dto.getId(), dto.getCheckIn(), dto.getCheckOut(), dto.getCreatedAt()));
+//        }
+//
+//        modelAndView.addObject("listBooking", bookingDTOs);
+//        modelAndView.addObject("checkIn", checkIn);
+//        modelAndView.addObject("checkOut", checkOut);
+//        return modelAndView;
+//    }
+
     @GetMapping("list_booking")
-    public ModelAndView listBooking() {
+    public ModelAndView listBooking(@RequestParam(required = false) String keyword,
+                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime checkIn,
+                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime checkOut,
+                                    @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime createdAt) {
         ModelAndView modelAndView = new ModelAndView("dashboard/booking/list_booking");
-        List<Booking> bookings = bookingService.findAllBooking();
-        List<BookingDTO> bookingDTOs = bookings.stream()
-                .map(BookingDTO::new)
-                .collect(Collectors.toList());
+//        List<Booking> bookings = bookingService.findAllBooking();
+        List<BookingDTO> bookingDTOs;
+        if ((keyword != null && !keyword.isEmpty()) || checkIn != null || checkOut != null || createdAt != null) {
+            bookingDTOs = bookingService.search(keyword, checkIn, checkOut, createdAt);
+            modelAndView.addObject("keyword", keyword);
+            modelAndView.addObject("checkIn", checkIn);
+            modelAndView.addObject("checkOut", checkOut);
+            modelAndView.addObject("createdAt", createdAt);
+        } else {
+            // Nếu không có keyword, hiển thị toàn bộ danh sách booking
+            List<Booking> bookings = bookingService.findAllBooking();
+            bookingDTOs = bookings.stream()
+                    .map(BookingDTO::new)
+                    .collect(Collectors.toList());
+        }
+
         modelAndView.addObject("listBooking", bookingDTOs);
         return modelAndView;
     }
@@ -109,5 +163,40 @@ public class BookingController {
         }
         return "redirect:/list_booking";
     }
+    @GetMapping("/search")
+    public String search(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime checkIn,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime checkOut,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime createdAt) {
+        String redirectUrl = "redirect:/list_booking";
+        boolean hasParams = false;
+
+        if ((keyword != null && !keyword.trim().isEmpty()) || checkIn != null || checkOut != null || createdAt != null) {
+            redirectUrl += "?";
+            hasParams = true;
+
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                redirectUrl += "keyword=" + keyword.trim() + "&";
+            }
+            if (checkIn != null) {
+                redirectUrl += "checkIn=" + checkIn.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) + "&";
+            }
+            if (checkOut != null) {
+                redirectUrl += "checkOut=" + checkOut.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")) + "&";
+            }
+            if (createdAt != null) {
+                redirectUrl += "createdAt=" + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            }
+
+            if (redirectUrl.endsWith("&")) {
+                redirectUrl = redirectUrl.substring(0, redirectUrl.length() - 1);
+            }
+        }
+
+        return redirectUrl;
     }
+
+
+}
 

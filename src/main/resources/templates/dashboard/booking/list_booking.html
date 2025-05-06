@@ -1,188 +1,203 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head>
-  <meta charset="UTF-8">
-  <title>Booking List</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
+  <!DOCTYPE html>
+  <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="UTF-8">
+    <title>Booking List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
 
-    h1 {
-      font-size: 24px;
-      color: #333;
-      margin-bottom: 10px;
-    }
+      h1 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 10px;
+      }
 
-    .action-buttons {
-      margin-bottom: 15px;
-    }
+      .action-buttons {
+        margin-bottom: 15px;
+      }
 
-    .action-buttons a, .action-buttons input[type="submit"] {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      cursor: pointer;
-      margin-right: 10px;
-      font-size: 14px;
-    }
+      .action-buttons a, .action-buttons input[type="submit"] {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+      }
 
-    .action-buttons .add-button {
-      background-color: #28a745; /* Màu xanh lá cho nút "Thêm Người Dùng" */
-    }
+      .action-buttons .add-button {
+        background-color: #28a745; /* Màu xanh lá cho nút "Thêm Người Dùng" */
+      }
 
-    .action-buttons .search-button {
-      background-color: #007bff; /* Màu xanh dương cho nút "Tìm kiếm" */
-    }
-
-
-    .search-input input {
-      padding: 8px;
-      width: 500px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    table, th, td {
-      border: 1px solid #ddd;
-    }
-
-    th {
-      background-color: black;
-      padding: 10px;
-      text-align: center !important;
-      color: white;
-
-    }
-
-    td {
-      padding: 10px;
-      text-align: center;
-    }
-    /* Hiệu ứng hover cho hàng */
-    tr {
-      transition: all 0.3s ease; /* Tạo hiệu ứng chuyển đổi mượt mà */
-    }
-
-    tr:hover {
-      background-color: #bcb9b9;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng nhẹ */
-    }
-    /* Tùy chỉnh cột Status và Payment Status thành dạng nút */
-    .status, .payment-status {
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 15px;
-      color: white;
-      font-size: 12px;
-    }
-
-    /* Màu sắc cho Status */
-    .status-pending {
-      background-color: #dc3545; /* Đỏ cho pending */
-    }
-
-    .status-confirmed {
-      background-color: #28a745; /* Xanh lá cho confirmed */
-    }
-
-    .status-cancelled {
-      background-color: #6c757d; /* Xám cho cancelled */
-    }
-
-    .status-completed {
-      background-color: #007bff; /* Xanh dương cho completed */
-    }
-
-    /* Màu sắc cho Payment Status */
-    .payment-unpaid {
-      background-color: #dc3545; /* Đỏ cho unpaid */
-    }
-
-    .payment-paid {
-      background-color: #28a745; /* Xanh lá cho paid */
-    }
-
-    .payment-refunded {
-      background-color: #ffc107; /* Vàng cho refunded */
-    }
-
-    /* Tùy chỉnh cột Hành động */
-    .action-buttons-table a, .action-buttons-table button {
-      padding: 5px 10px;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      text-decoration: none;
-      font-size: 12px;
-      margin: 0 5px;
-      cursor: pointer;
-    }
-
-    .view-button {
-      background-color: #007bff; /* Xanh dương cho nút Xem */
-    }
-
-    .edit-button {
-      background-color: #6c757d; /* Xám cho nút Sửa */
-    }
-
-    .delete-button {
-      background-color: #dc3545; /* Đỏ cho nút Xóa */
-    }
-  </style>
-</head>
-<body>
-<div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
-<h1>Booking List</h1>
-
-<!-- Nút Thêm và Tìm kiếm -->
-<div class="action-buttons">
-  <a th:href="@{/show-form-add}" class="btn btn-success btn-md">Thêm mới</a>
-</div>
+      .action-buttons .search-button {
+        background-color: #007bff; /* Màu xanh dương cho nút "Tìm kiếm" */
+      }
 
 
-<!-- Bảng Booking -->
-<table>
-  <tr>
-    <th>ID</th>
-    <th>User Name</th>
-    <th>Room Type</th>
-    <th>Check In</th>
-    <th>Check Out</th>
-    <th>Status</th>
-    <th>Payment Status</th>
-    <th>Created At</th>
-    <th>Hành động</th>
-  </tr>
-  <tr th:each="b : ${listBooking}">
-    <td th:text="${b.id}"></td>
-    <td th:text="${b.userName}"></td>
-    <td th:text="${b.roomType}"></td>
-    <td th:text="${#temporals.format(b.checkIn, 'dd/MM/yyyy HH:mm')}"></td>
-    <td th:text="${#temporals.format(b.checkOut, 'dd/MM/yyyy HH:mm')}"></td>
-    <td>
-      <span class="status" th:classappend="'status-' + ${b.status}" th:text="${b.status}"></span>
-    </td>
-    <td>
-      <span class="payment-status" th:classappend="'payment-' + ${b.paymentStatus}" th:text="${b.paymentStatus}"></span>
-    </td>
-    <td th:text="${b.createdAt}"></td>
-    <td class="action-buttons-table">
-      <a href="#" class="view-button">View</a>
-      <a th:href="@{/show-form-update/{id}(id=${b.id})}" class="edit-button">Edit</a>
-      <a th:href="@{/delete_booking/{id}(id=${b.id})}" class="delete-button">Delete</a>
-    </td>
-  </tr>
-</table>
-</body>
-</html>
+      .search-input input {
+        padding: 8px;
+        width: 500px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      table, th, td {
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: black;
+        padding: 10px;
+        text-align: center !important;
+        color: white;
+
+      }
+
+      td {
+        padding: 10px;
+        text-align: center;
+      }
+      /* Hiệu ứng hover cho hàng */
+      tr {
+        transition: all 0.3s ease; /* Tạo hiệu ứng chuyển đổi mượt mà */
+      }
+
+      tr:hover {
+        background-color: #bcb9b9;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng nhẹ */
+      }
+      /* Tùy chỉnh cột Status và Payment Status thành dạng nút */
+      .status, .payment-status {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 15px;
+        color: white;
+        font-size: 12px;
+      }
+
+      /* Màu sắc cho Status */
+      .status-pending {
+        background-color: #dc3545; /* Đỏ cho pending */
+      }
+
+      .status-confirmed {
+        background-color: #28a745; /* Xanh lá cho confirmed */
+      }
+
+      .status-cancelled {
+        background-color: #6c757d; /* Xám cho cancelled */
+      }
+
+      .status-completed {
+        background-color: #007bff; /* Xanh dương cho completed */
+      }
+
+      /* Màu sắc cho Payment Status */
+      .payment-unpaid {
+        background-color: #dc3545; /* Đỏ cho unpaid */
+      }
+
+      .payment-paid {
+        background-color: #28a745; /* Xanh lá cho paid */
+      }
+
+      .payment-refunded {
+        background-color: #ffc107; /* Vàng cho refunded */
+      }
+
+      /* Tùy chỉnh cột Hành động */
+      .action-buttons-table a, .action-buttons-table button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+        margin: 0 5px;
+        cursor: pointer;
+      }
+
+      .view-button {
+        background-color: #007bff; /* Xanh dương cho nút Xem */
+      }
+
+      .edit-button {
+        background-color: #6c757d; /* Xám cho nút Sửa */
+      }
+
+      .delete-button {
+        background-color: #dc3545; /* Đỏ cho nút Xóa */
+      }
+    </style>
+  </head>
+  <body>
+  <div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
+  <h1>Booking List</h1>
+
+  <!-- Nút Thêm và Tìm kiếm -->
+  <div class="action-buttons">
+    <a th:href="@{/show-form-add}" class="btn btn-success btn-md">Thêm mới</a>
+    <form th:action="@{/search}" method="get" class="search-input">
+      <label>
+        <input type="text" name="keyword" placeholder="Enter keyword to search..." th:value="${keyword != null ? keyword : ''}">
+      </label>
+      <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm..." />
+
+      <input type="datetime-local" name="checkIn"
+             th:value="${checkIn != null} ? ${#temporals.format(checkIn, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />
+
+      <input type="datetime-local" name="checkOut"
+             th:value="${checkOut != null} ? ${#temporals.format(checkOut, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />
+
+      <input type="datetime-local" name="createdAt"
+             th:value="${createdAt != null} ? ${#temporals.format(createdAt, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />
+      <input type="submit" value="Tìm kiếm" class="search-button">
+    </form>
+  </div>
+
+
+  <!-- Bảng Booking -->
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>User Name</th>
+      <th>Room Type</th>
+      <th>Check In</th>
+      <th>Check Out</th>
+      <th>Status</th>
+      <th>Payment Status</th>
+      <th>Created At</th>
+      <th>Hành động</th>
+    </tr>
+    <tr th:each="b : ${listBooking}">
+      <td th:text="${b.id}"></td>
+      <td th:text="${b.userName}"></td>
+      <td th:text="${b.roomType}"></td>
+      <td th:text="${#temporals.format(b.checkIn, 'dd/MM/yyyy HH:mm')}"></td>
+      <td th:text="${#temporals.format(b.checkOut, 'dd/MM/yyyy HH:mm')}"></td>
+      <td>
+        <span class="status" th:classappend="'status-' + ${b.status}" th:text="${b.status}"></span>
+      </td>
+      <td>
+        <span class="payment-status" th:classappend="'payment-' + ${b.paymentStatus}" th:text="${b.paymentStatus}"></span>
+      </td>
+      <td th:text="${b.createdAt}"></td>
+      <td class="action-buttons-table">
+        <a th:href="@{/show-form-update/{id}(id=${b.id})}" class="edit-button">Edit</a>
+        <a th:href="@{/delete_booking/{id}(id=${b.id})}" class="delete-button">Delete</a>
+      </td>
+    </tr>
+  </table>
+  </body>
+  </html>
