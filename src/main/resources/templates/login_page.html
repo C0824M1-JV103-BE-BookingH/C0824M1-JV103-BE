@@ -105,14 +105,13 @@
             playsinline
     ></video>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2 th:text="#{app.LOGIN}">Login</h2>
         <form class="login-form" method="post" action="/login">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">LOGIN</button>
-            <a href="#">Forgot Password?</a>
+            <button type="submit" th:text="#{app.Login}">LOGIN</button>
+            <a th:text="#{app.forgot}" href="#">Forgot Password?</a>
         </form>
-
     </div>
 </div>
 

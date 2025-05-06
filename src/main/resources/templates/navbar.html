@@ -4,44 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotale - Navbar</title>
+    <style>
+        body {
+            font-family: Arial, "Times New Roman", sans-serif;
+        }
+    </style>
 </head>
 <body>
 <!-- Fragment cho Navbar -->
 <div th:fragment="navbar">
     <div class="top-bar">
         <span>☎ +024 242 0777</span>
-        <a href="mailto:info@webhotel.vn">✉ info@webhotel.vn</a>
+        <a href="/cdn-cgi/l/email-protection#b891969e97b88f9d9a90978c9d94d68e96">✉ <span class="__cf_email__" data-cfemail="2e070008012e190b0c06011a0b02401800">[email&#160;protected]</span></a>
     </div>
     <nav class="navbar">
         <div class="navbar-container">
             <div class="nav-links left-links">
-                <a th:href="@{/}">HOME</a>
-                <a href="">ABOUT US</a>
-                <a href="">GALLERY</a>
-                <a href="">SERVICES</a>
+                <a th:href="@{/(lang=${#locale.language})}" th:text="#{app.home}">HOME</a>
+                <a th:href="@{/about(lang=${#locale.language})}" th:text="#{app.about_us}">ABOUT US</a>
+                <a th:href="@{/gallery(lang=${#locale.language})}" th:text="#{app.gallery}">GALLERY</a>
+                <a th:href="@{/services(lang=${#locale.language})}" th:text="#{app.service}">SERVICES</a>
             </div>
             <div class="logo-container">
                 <img src="https://res.cloudinary.com/dd8ryf97c/image/upload/v1745501463/yhjpcnwoxmdcos6q8aui.png" class="logo" alt="Hotale Logo">
             </div>
             <div class="nav-links right-links">
-            <a href="#">BLOGS</a>
+                <a th:text="#{app.blog}" href="#">BLOGS</a>
                 <div sec:authorize="isAuthenticated()">
-                    <a th:href="@{/logout}" class="logout-btn">Logout</a>
+                    <a th:text="#{app.logout}" th:href="@{/logout}" class="logout-btn">Logout</a>
                 </div>
                 <div sec:authorize="isAnonymous()">
-                    <a th:href="@{/login}" class="login-btn">Login</a>
+                    <a th:text="#{app.Login}" th:href="@{/login}" class="login-btn">Login</a>
                 </div>
-            <div class="language-switcher-container">
-                <button class="language-switcher">LANGUAGE</button>
-                <div class="language-dropdown">
-                    <a href="#" class="language-option">English</a>
-                    <a href="#" class="language-option">Vietnamese</a>
+                <div class="language-switcher-container">
+                    <button class="language-switcher" th:text="#{app.language}">LANGUAGE</button>
+                    <div class="language-dropdown">
+                        <a href="?lang=en" class="language-option">English</a>
+                        <a href="?lang=vi" class="language-option">Vietnamese</a>
+                        <a href="?lang=fr" class="language-option">France</a>
+                        <a href="?lang=ja" class="language-option">日本語</a>
+                    </div>
                 </div>
+                <button class="book-now-btn" th:text="#{app.book}">BOOK NOW</button>
             </div>
-            <button class="book-now-btn">BOOK NOW</button>
-        </div>
         </div>
     </nav>
 </div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'939cb257cbea7bcf',t:'MTc0NjI0MzIwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const languageOptions = document.querySelectorAll('.language-option');
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function(event) {
+                event.preventDefault();
+                const lang = this.getAttribute('href').split('=')[1];
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('lang', lang);
+                window.location.href = currentUrl.toString();
+            });
+        });
+
+        const languageButton = document.querySelector('.language-switcher');
+        const languageDropdown = document.querySelector('.language-dropdown');
+        languageButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            languageDropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', function(event) {
+            if (!languageButton.contains(event.target) && !languageDropdown.contains(event.target)) {
+                languageDropdown.classList.remove('active');
+            }
+        });
+    });
+</script>
 </body>
 </html>
