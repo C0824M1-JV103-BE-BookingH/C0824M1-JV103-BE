@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,12 +29,7 @@
         }
 
         body {
-            position: relative;
-            margin: var(--header-height) 0 0 0;
-            padding: 0 1rem;
-            font-family: var(--body-font);
-            font-size: var(--normal-font-size);
-            transition: .5s;
+            font-family: Arial, "Times New Roman", sans-serif;
         }
 
         a {
@@ -260,6 +255,9 @@
                         <img src="https://via.placeholder.com/40" alt="Profile">
                     </div>
                     <a href="#" class="ms-2 fw-semibold text-decoration-none">Admin</a>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}" class="logout-btn">Logout</a>
                 </div>
             </div>
         </div>
