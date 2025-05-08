@@ -5,8 +5,8 @@
   <title>Hotel Admin Information</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
+        font-family: Arial, "Times New Roman", sans-serif;
+           background-color: #f4f4f9;
       margin: 0;
       padding: 20px;
     }
@@ -99,10 +99,10 @@
         <img th:src="${list[0].imageUrl}" alt="Hotel Image" onerror="this.src='https://via.placeholder.com/500x375?text=No+Image'" />
       </div>
       <div class="hotel-details">
-        <h2 th:text="${list[0].name}"></h2>
-        <p><strong>Owner:</strong> <span th:text="${list[0].owner}"></span></p>
-        <p><strong>Address:</strong> <span th:text="${list[0].address}"></span></p>
-        <p><strong>Description:</strong> <span th:text="${list[0].description}"></span></p>
+        <h2 th:text="#{app.nameHotel}"></h2>
+        <p><strong th:text="#{app.owner}"></strong> <span th:text="${list[0].owner}"></span></p>
+        <p><strong th:text="#{app.address}"></strong> <span th:text="${list[0].address}"></span></p>
+        <p><strong th:text="#{app.description}">Description:</strong> <span th:text="#{app.desHotel}"></span></p>
         <p><strong>Hotline:</strong> <span th:text="${list[0].hotline}"></span></p>
         <a th:href="@{/update-hotel-inf/{owner}(owner=${list[0].owner})}" class="edit-button">Edit Hotel Information</a>
       </div>
@@ -114,5 +114,4 @@
     <p>No hotel found in the system.</p>
   </div>
 </div>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'936ef0898d24ed83',t:'MTc0NTc2MzQwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

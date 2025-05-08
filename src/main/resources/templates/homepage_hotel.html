@@ -23,6 +23,9 @@
       overflow-x: hidden;
 
     }
+    body {
+      font-family: Arial, "Times New Roman", sans-serif;
+    }
     .video-container {
       position: relative; v
       width: 100%;
@@ -58,6 +61,53 @@
       font-size: 48px;
       font-weight: 500;
     }
+    .facilities-container {
+      padding: 40px 20px;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+    .facilities-container h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    .facilities-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .facility-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100px;
+      transition: transform 0.3s ease;
+    }
+    .facility-item:hover {
+      transform: translateY(-5px);
+    }
+    .facility-item img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 15px;
+      filter: grayscale(20%);
+    }
+    .facility-item p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .add-font {
+      font-family: "Allison", handwriting !important;
+    }
   </style>
 </head>
 <body>
@@ -89,6 +139,40 @@
       </div>
     </div>
   </div>
+
+<div class="facilities-container">
+  <h2 class="add-font" >Hotel Facilities</h2>
+  <div class="facilities-list">
+    <div class="facility-item">
+      <img src="https://hotale.webhotel.vn/files/images/icon-moi/Group-40.png" alt="Parking Icon">
+      <p>Parking</p>
+    </div>
+    <div class="facility-item">
+      <img src="https://hotale.webhotel.vn/files/images/icon-moi/kets.png" alt="Safe Icon">
+      <p>Safe</p>
+    </div>
+    <div class="facility-item">
+      <img src="https://hotale.webhotel.vn/files/images/icon-moi/be-boi.png" alt="Swimming Pool Icon">
+      <p>Swimming Pool</p>
+    </div>
+    <div class="facility-item">
+      <img src="https://hotale.webhotel.vn/files/images/icon-moi/an-sansg.png" alt="Breakfast Icon">
+      <p>Have Breakfast</p>
+    </div>
+    <div class="facility-item">
+      <img src="https://hotale.webhotel.vn/files/images/icon-moi/gym.png" alt="Gym Icon">
+      <p>Gym</p>
+    </div>
+    <div class="facility-item">
+      <img src="https://hotale.webhotel.vn/files/images/icon-moi/spa.png" alt="Spa Icon">
+      <p>Spa</p>
+    </div>
+    <div class="facility-item">
+      <img src="https://hotale.webhotel.vn/files/images/icon-moi/wifi.png" alt="WiFi Icon">
+      <p>WiFi</p>
+    </div>
+  </div>
+</div>
 </div>
 
 <script>
@@ -113,6 +197,8 @@
       }
     }
     console.log("Initial pageYOffset:", window.pageYOffset);
+
+  
   });
 </script>
 </body>
