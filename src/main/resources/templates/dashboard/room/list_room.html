@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Room List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .pagination {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            text-align: center;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            z-index: 999;
+        }
+
+        .pagination a {
+            display: inline-block;
+            text-align: center;
+            min-width: 32px;
+            color: #000000;
+            margin: 0 5px;
+            text-decoration: none;
+            padding: 6px 0;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            font-weight: bold;
+        }
+
+
+        .pagination a:hover {
+            background-color: #e2e6ea;
+        }
+
+        a.disabled {
+            color: #999;
+            pointer-events: none;
+            cursor: default;
+            text-decoration: none;
+        }
+
+        .pagination a.current-page {
+            font-weight: bold;
+            text-decoration: underline;
+            background-color: #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: black;
+            padding: 10px;
+            text-align: center !important;
+            color: white;
+
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Hiệu ứng hover cho hàng */
+        tr {
+            transition: all 0.3s ease; /* Tạo hiệu ứng chuyển đổi mượt mà */
+        }
+
+        tr:hover {
+            background-color: #bcb9b9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng nhẹ */
+        }
+
+        /* CSS cho trạng thái phòng */
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .status-available {
+            background-color: #28a745; /* Xanh lá */
+        }
+
+        .status-booked {
+            background-color: #dc3545; /* Đỏ */
+        }
+
+        .status-maintenance {
+            background-color: #ffc107; /* Vàng */
+        }
+
+    </style>
+</head>
+<body>
+<div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
+<h1>Room List</h1>
+<div class="d-flex justify-content-between">
+    <a th:href="@{/show-form-add-room}" class="btn btn-success btn-md">Thêm mới</a>
+    <a class="btn btn-info btn-md text-white">View Room Type</a>
+</div>
+<table border="1px">
+    <thead>
+    <tr>
+        <th>Room</th>
+        <th>Room name</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th colspan="3">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(listRoom.content)}">
+        <td colspan="6">Không có phòng nào.</td>
+    </tr>
+    <tr th:each="r : ${listRoom.content}">
+        <td th:text="${r.roomNumber}"></td>
+        <td th:text="${r.roomType.name}"></td>
+        <td th:text="${r.roomType.price}"></td>
+        <td>
+            <span class="status"
+                  th:classappend="'status-' + ${r.status.toString().toLowerCase()}"
+                  th:text="${r.status}"></span>
+        </td>
+        <td>Edit</td>
+        <td>Delete</td>
+        <td>Xem</td>
+    </tr>
+    </tbody>
+</table>
+<div class="pagination">
+    <!-- Nút Previous -->
+    <a th:href="@{rooms(pageRoom=${listRoom.number - 1})}"
+       th:classappend="${!listRoom.hasPrevious()} ? 'disabled' : ''">«</a>
+
+    <!-- Các trang -->
+    <a th:each="i : ${#numbers.sequence(0, listRoom.totalPages - 1)}"
+       th:href="@{rooms(pageRoom=${i})}"
+       th:text="${i + 1} + ' '"
+       th:classappend="${i == listRoom.number} ? 'current-page' : ''"></a>
+
+    <!-- Nút Next -->
+    <a th:href="@{rooms(pageRoom=${listRoom.number + 1})}"
+       th:classappend="${!listRoom.hasNext()} ? 'disabled' : ''">»</a>
+
+</div>
+</body>
+</html>

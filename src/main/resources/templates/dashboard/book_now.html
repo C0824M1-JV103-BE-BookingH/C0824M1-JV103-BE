@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/book.css}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .room-card {
+        display: flex;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 1000px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+
+    .room-image {
+        width: 250px;
+        height: auto;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 20px;
+    }
+
+    .room-info {
+        flex: 2;
+    }
+
+    .room-info h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .room-info p {
+        margin: 8px 0;
+        color: #555;
+    }
+
+    .room-price {
+        flex: 1;
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #000;
+    }
+
+    .view-button {
+        background-color: #b68c76;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .room-list-wrapper {
+        margin-top: 150px;
+    }
+
+    .book-now-btn {
+        color: black !important;
+    }
+</style>
+<body>
+<div id="sidebar-container" style="display: block;" th:insert="~{navbar}"></div>
+<div class="room-list-wrapper">
+    <div class="room-card" th:each="b : ${booking}">
+        <img th:src="${b.imageUrl}" alt="Room Image" class="room-image">
+        <div class="room-info">
+            <h2 th:text="${b.name}"></h2>
+            <p th:text="${b.description}"></p>
+            <p>Số người: <span th:text="${b.maxPeople}"></span></p>
+        </div>
+        <div class="room-price">
+            <p class="price">
+                <span th:if="${days > 0}" th:text="'Tổng: $' + (${b.price} * ${days}) + ' USD '"/>
+                <span th:if="${days == 0}" th:text="'$' + ${b.price} + ' USD'"/>
+            </p>
+            <form th:action="@{/book_room}" method="get">
+                <input type="hidden" name="roomType" th:value="${b.name}">
+                <input type="hidden" name="price" th:value="${days > 0 ? b.price * days : b.price}">
+                <input type="hidden" name="checkIn" th:value="${checkIn}">
+                <input type="hidden" name="checkOut" th:value="${checkOut}">
+                <input type="hidden" name="imageUrl" th:value="${b.imageUrl}">
+                <input type="hidden" name="maxPeople" th:value="${b.maxPeople}">
+                <input type="hidden" name="description" th:value="${b.description}">
+                <button type="submit" class="view-button">Đặt phòng</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        checkScroll();
+        window.addEventListener('scroll', checkScroll);
+
+        function checkScroll() {
+            console.log("Scroll event triggered");
+            console.log("Current pageYOffset:", window.pageYOffset);
+            const navbar = document.querySelector('.navbar');
+            const topBar = document.querySelector('.top-bar');
+
+            if (window.pageYOffset > 20) {
+                navbar.classList.add('scrolled');
+                topBar.classList.add('scrolled');
+                console.log("Scrolled class added");
+            } else {
+                navbar.classList.remove('scrolled');
+                topBar.classList.remove('scrolled');
+                console.log("Scrolled class removed");
+            }
+        }
+        console.log("Initial pageYOffset:", window.pageYOffset);
+    });
+</script>
+</html>

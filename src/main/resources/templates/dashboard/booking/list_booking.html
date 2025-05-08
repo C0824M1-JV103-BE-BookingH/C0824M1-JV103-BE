@@ -144,27 +144,28 @@
   <body>
   <div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
   <h1>Booking List</h1>
+  <div th:if="${error}" class="alert alert-danger" th:text="${error}">Error message</div>
+  <div th:if="${message}" class="alert alert-success" th:text="${message}">Success message</div>
+<!--  &lt;!&ndash; Nút Thêm và Tìm kiếm &ndash;&gt;-->
+<!--  <div class="action-buttons">-->
+<!--    <a th:href="@{/show-form-add}" class="btn btn-success btn-md">Add new bookings</a>-->
+<!--    <form th:action="@{/search}" method="get" class="search-input">-->
+<!--      <label>-->
+<!--        <input type="text" name="keyword" placeholder="Enter keyword to search..." th:value="${keyword != null ? keyword : ''}">-->
+<!--      </label>-->
+<!--      <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..." />-->
 
-  <!-- Nút Thêm và Tìm kiếm -->
-  <div class="action-buttons">
-    <a th:href="@{/show-form-add}" class="btn btn-success btn-md">Thêm mới</a>
-    <form th:action="@{/search}" method="get" class="search-input">
-      <label>
-        <input type="text" name="keyword" placeholder="Enter keyword to search..." th:value="${keyword != null ? keyword : ''}">
-      </label>
-      <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm..." />
+<!--      <input type="datetime-local" name="checkIn"-->
+<!--             th:value="${checkIn != null} ? ${#temporals.format(checkIn, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />-->
 
-      <input type="datetime-local" name="checkIn"
-             th:value="${checkIn != null} ? ${#temporals.format(checkIn, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />
+<!--      <input type="datetime-local" name="checkOut"-->
+<!--             th:value="${checkOut != null} ? ${#temporals.format(checkOut, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />-->
 
-      <input type="datetime-local" name="checkOut"
-             th:value="${checkOut != null} ? ${#temporals.format(checkOut, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />
-
-      <input type="datetime-local" name="createdAt"
-             th:value="${createdAt != null} ? ${#temporals.format(createdAt, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />
-      <input type="submit" value="Tìm kiếm" class="search-button">
-    </form>
-  </div>
+<!--      <input type="datetime-local" name="createdAt"-->
+<!--             th:value="${createdAt != null} ? ${#temporals.format(createdAt, 'yyyy-MM-dd\'T\'HH:mm')} : ''" />-->
+<!--      <input type="submit" value="Tìm kiếm" class="search-button">-->
+<!--    </form>-->
+<!--  </div>-->
 
 
   <!-- Bảng Booking -->
@@ -178,7 +179,7 @@
       <th>Status</th>
       <th>Payment Status</th>
       <th>Created At</th>
-      <th>Hành động</th>
+      <th>Action</th>
     </tr>
     <tr th:each="b : ${listBooking}">
       <td th:text="${b.id}"></td>

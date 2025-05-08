@@ -38,6 +38,18 @@
             <label for="checkOut">Check-out Date</label>
             <input type="datetime-local" class="form-control" id="checkOut" th:field="*{checkOut}" required />
         </div>
+        <div class="form-group">
+            <label for="price">Giá phòng</label>
+            <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="Nhập giá phòng" required />
+        </div>
+        <div class="form-group">
+            <label for="paymentMethod">Phương thức thanh toán</label>
+            <select class="form-control" id="paymentMethod" th:field="*{paymentMethod}" required>
+                <option value="CASH">Tiền mặt</option>
+                <option value="BANK_TRANSFER">Chuyển khoản</option>
+                <option value="CARD">Thẻ</option>
+            </select>
+        </div>
         <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-primary">Add Booking</button>
             <a th:href="@{/list_booking}" class="btn btn-secondary">
