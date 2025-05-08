@@ -41,24 +41,24 @@
                         <a href="?lang=ja" class="language-option">日本語</a>
                     </div>
                 </div>
-                <button class="book-now-btn" id="openBookingModalNavbar">BOOK NOW</button>
+                <button class="book-now-btn" id="openBookingModalNavbar" th:text="#{app.booknow}">BOOK NOW</button>
                 <!-- Modal đặt phòng -->
                 <div id="bookingModal" class="modal">
                     <div class="booking-modal-content-popover">
                         <span class="close" id="closeBookingModal">×</span>
-                        <h2 class="modal-title">ĐẶT CHỖ</h2>
+                        <h2 class="modal-title" th:text="#{app.datcho}">ĐẶT CHỖ</h2>
                         <form th:action="@{/bookingNow}" method="get" class="booking-form-modal">
                             <div class="row-modal">
                                 <div class="col-modal">
-                                    <label for="checkIn">Nhận phòng</label>
+                                    <label for="checkIn" th:text="#{app.nhan}">Nhận phòng</label>
                                     <input type="date" id="checkIn" name="checkIn" required>
                                 </div>
                                 <div class="col-modal">
-                                    <label for="checkOut">Trả phòng</label>
+                                    <label for="checkOut" th:text="#{app.tra}">Trả phòng</label>
                                     <input type="date" id="checkOut" name="checkOut" required>
                                 </div>
                             </div>
-                            <button type="submit" class="btn-modal-submit">TÌM KIẾM</button>
+                            <button type="submit" class="btn-modal-submit" th:text="#{app.search}">TÌM KIẾM</button>
                         </form>
                     </div>
                 </div>

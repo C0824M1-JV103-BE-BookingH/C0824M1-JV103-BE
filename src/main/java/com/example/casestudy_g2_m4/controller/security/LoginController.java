@@ -65,10 +65,10 @@ public class LoginController {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword(password); // Nên mã hóa mật khẩu trước khi lưu!
+        user.setPassword(password);
         user.setPhone(phone);
-        user.setRole(User.Role.customer); // Mặc định là customer
-        user.setStatus(User.Status.active); // Mặc định là active
+        user.setRole(User.Role.customer);
+        user.setStatus(User.Status.active);
 
         // Lưu user
         userService.saveUser(user);

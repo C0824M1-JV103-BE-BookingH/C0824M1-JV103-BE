@@ -107,15 +107,15 @@
           playsinline
   ></video>
   <div class="register-container">
-    <h2>Đăng ký tài khoản</h2>
+    <h2  th:text="#{app.register_count}"></h2>
     <form class="register-form" method="post" action="/register" th:object="${user}">
-      <input type="text" name="name" placeholder="Họ và tên" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Mật khẩu" required>
-      <input type="password" name="confirmPassword" placeholder="Xác nhận mật khẩu" required>
-      <input type="tel" name="phone" placeholder="Số điện thoại" required>
-      <button type="submit">Đăng ký</button>
-      <a href="/login">Đã có tài khoản? Đăng nhập</a>
+      <input type="text" name="name" th:attr="placeholder=#{app.username}" required>
+      <input type="email" name="email" th:attr=" placeholder=#{app.email}" required>
+      <input type="password" name="password" th:attr=" placeholder=#{app.password}" required>
+      <input type="password" name="confirmPassword" th:attr=" placeholder=#{app.confirm_pass}" required>
+      <input type="tel" name="phone" th:attr=" placeholder=#{app.phone}" required>
+      <button type="submit" th:text="#{app.register}"></button>
+      <a href="/login" th:text="#{app.Login}"></a>
     </form>
   </div>
 </div>
