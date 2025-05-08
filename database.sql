@@ -30,7 +30,7 @@ INSERT INTO users (name, email, password, phone, role, status) VALUES
 
 
 -- 6. Chèn dữ liệu vào bảng bookings
-INSERT INTO bookings (user_id, room_id, check_in, check_out, status, payment_status, created_at) VALUES
+INSERT INTO bookings (room_id, check_in, check_out, status, payment_status, created_at) VALUES
 (3, 1, '2025-04-27 14:00:00', '2025-04-30 12:00:00', 'confirmed', 'paid', '2025-04-25 10:00:00'),
 (3, 3, '2025-05-01 14:00:00', '2025-05-03 12:00:00', 'pending', 'unpaid', '2025-04-26 09:00:00'),
 (4, 1, '2025-04-28 14:00:00', '2025-05-01 12:00:00', 'cancelled', 'refunded', '2025-04-24 15:00:00'),
@@ -55,8 +55,14 @@ INSERT INTO support_requests (user_id, subject, message, created_at) VALUES
 (3, 'Room Complaint', 'The AC in my room is not working properly.', '2025-04-24 09:00:00');
 
 			
+SELECT * FROM payments;
+SELECT * FROM bookings;
+SELECT * FROM rooms;
 SELECT * FROM users;
 DELETE FROM bookings WHERE id > 4;
 
 ALTER TABLE bookings AUTO_INCREMENT = 5;
-
+SELECT DATE_FORMAT(paid_at, '%Y-%m') AS month, SUM(amount + COALESCE(surcharge, 0)) AS revenue
+FROM payment
+GROUP BY DATE_FORMAT(paid_at, '%Y-%m')
+ORDER BY DATE_FORMAT(paid_at, '%Y-%m');
