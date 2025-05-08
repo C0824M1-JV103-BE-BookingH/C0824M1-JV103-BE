@@ -33,4 +33,12 @@ public class HotelService implements IHotelService {
             iHotelRepository.save(existingHotel);
         }
     }
+
+    @Override
+    public Hotel findById(Integer hotelId) {
+        return null;
+    }
+
+
+
 }
