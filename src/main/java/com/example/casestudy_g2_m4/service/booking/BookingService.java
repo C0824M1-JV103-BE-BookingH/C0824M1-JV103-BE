@@ -170,9 +170,19 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    @Transactional
     public void deleteBooking(Integer id) {
-        paymentRepository.deleteByBookingId(id);
-        bookingRepository.deleteById(id);
+        Optional<Booking> bookingOpt = bookingRepository.findById(id);
+        if (bookingOpt.isPresent()) {
+            Booking booking = bookingOpt.get();
+            paymentRepository.deleteByBookingId(id);
+
+            if (booking.getBookingInfo() != null) {
+                bookingInfoService.deleteById(booking.getBookingInfo().getId());
+            }
+
+            bookingRepository.deleteById(id);
+        }
     }
 
     @Override
