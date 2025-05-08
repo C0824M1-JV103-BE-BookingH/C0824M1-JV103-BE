@@ -101,9 +101,6 @@ public class BookingService implements IBookingService {
         payment.setAmount(bookingDTO.getPrice());
         if (bookingDTO.getPaymentMethod() != null) {
             switch (bookingDTO.getPaymentMethod()) {
-                case "CASH":
-                    payment.setMethod(Payment.Method.cash);
-                    break;
                 case "BANK_TRANSFER":
                     payment.setMethod(Payment.Method.bank);
                     break;

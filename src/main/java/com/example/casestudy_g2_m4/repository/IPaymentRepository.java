@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.example.casestudy_g2_m4.model.Booking;
 import com.example.casestudy_g2_m4.model.Payment;
 
 @Repository
@@ -17,6 +18,9 @@ public interface IPaymentRepository extends JpaRepository<Payment, Integer> {
 //            "GROUP BY function('DATE', p.paidAt)")
 //    List<Object[]> getRevenueByDay(@Param("startDate") LocalDateTime startDate,
 //                                   @Param("endDate") LocalDateTime endDate);
+
+    @Query("SELECT p FROM Payment p WHERE p.booking = :booking")
+    List<Payment> findByBooking(Booking booking);
 
     @Query("SELECT FUNCTION('DATE_FORMAT', p.paidAt, '%Y-%m') as month, SUM(p.amount + COALESCE(p.surcharge, 0)) as revenue " +
             "FROM Payment p " +
