@@ -20,4 +20,4 @@ public class BookingInfoService implements IBookingInfoService {
     public void deleteById(Integer id) {
         bookingInfoRepository.deleteById(id);
     }
-} 
+}

@@ -174,7 +174,7 @@ public class BookingController {
             bookingService.deleteBooking(id);
             redirectAttributes.addFlashAttribute("message", "Booking deleted successfully");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to delete booking: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Failed to delete booking");
         }
         return "redirect:/list_booking";
     }
