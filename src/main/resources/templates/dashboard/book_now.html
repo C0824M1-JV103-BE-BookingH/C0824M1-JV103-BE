@@ -68,6 +68,10 @@
     .room-list-wrapper {
         margin-top: 150px;
     }
+
+    .book-now-btn {
+        color: black !important;
+    }
 </style>
 <body>
 <div id="sidebar-container" style="display: block;" th:insert="~{navbar}"></div>
@@ -80,8 +84,20 @@
             <p>Số người: <span th:text="${b.maxPeople}"></span></p>
         </div>
         <div class="room-price">
-            <p class="price" th:text="'$' + ${b.price} + ' USD'"></p>
-            <button class="view-button">View Prices</button>
+            <p class="price">
+                <span th:if="${days > 0}" th:text="'Tổng: $' + (${b.price} * ${days}) + ' USD '"/>
+                <span th:if="${days == 0}" th:text="'$' + ${b.price} + ' USD'"/>
+            </p>
+            <form th:action="@{/book_room}" method="get">
+                <input type="hidden" name="roomType" th:value="${b.name}">
+                <input type="hidden" name="price" th:value="${days > 0 ? b.price * days : b.price}">
+                <input type="hidden" name="checkIn" th:value="${checkIn}">
+                <input type="hidden" name="checkOut" th:value="${checkOut}">
+                <input type="hidden" name="imageUrl" th:value="${b.imageUrl}">
+                <input type="hidden" name="maxPeople" th:value="${b.maxPeople}">
+                <input type="hidden" name="description" th:value="${b.description}">
+                <button type="submit" class="view-button">Đặt phòng</button>
+            </form>
         </div>
     </div>
 </div>

@@ -1,7 +1,5 @@
 package com.example.casestudy_g2_m4.configuration;
 
-import com.example.casestudy_g2_m4.common.CustomAuthenticationEntryPoint;
-import com.example.casestudy_g2_m4.common.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +15,9 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.example.casestudy_g2_m4.common.CustomAuthenticationEntryPoint;
+import com.example.casestudy_g2_m4.common.CustomAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -54,7 +55,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/*.css","/","/login", "/css/**", "/js/**", "/favicon.ico").permitAll() // Các đường dẫn không cần login
-                        .requestMatchers("/dashboard/**").hasRole("ADMIN") // Yêu cầu role ADMIN
+                        .requestMatchers("/dashboard/**","/rooms","/finance","/hotel-inf","/list_booking").hasRole("ADMIN") // Yêu cầu role ADMIN
                         .requestMatchers("/user/**").hasRole("CUSTOMER") // Yêu cầu Role CUSTOMER
                         .requestMatchers("/staff/**").hasRole("STAFF") // Yêu cầu Role STAFF
                         .anyRequest().authenticated()
@@ -70,16 +71,16 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .permitAll()
                 )
                 .sessionManagement(session -> session
-                        .invalidSessionUrl("/login")
+                        .invalidSessionUrl("/")
                         .maximumSessions(1)
-                        .expiredUrl("/login")
+                        .expiredUrl("/")
                 )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(customAuthenticationEntryPoint)

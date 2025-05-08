@@ -1,12 +1,13 @@
 package com.example.casestudy_g2_m4.service.roomtype;
 
-import com.example.casestudy_g2_m4.model.RoomType;
-import com.example.casestudy_g2_m4.repository.IRoomtypeRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.casestudy_g2_m4.model.RoomType;
+import com.example.casestudy_g2_m4.repository.IRoomtypeRepository;
 @Service
 public class RoomTypeService implements IRoomTypeService {
     @Autowired

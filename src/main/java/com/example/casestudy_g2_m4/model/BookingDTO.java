@@ -1,11 +1,12 @@
 package com.example.casestudy_g2_m4.model;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class BookingDTO {
     private Integer id;
@@ -38,6 +39,13 @@ public class BookingDTO {
         this.createdAt = booking.getCreatedAt() != null ? booking.getCreatedAt().format(FORMATTER) : "";
         this.status = booking.getStatus() != null ? booking.getStatus().toString() : "";
         this.paymentStatus = booking.getPaymentStatus() != null ? booking.getPaymentStatus().toString() : "";
+    }
+
+    public BookingDTO(String userName, String roomType, LocalDateTime checkIn, LocalDateTime checkOut) {
+        this.userName = userName;
+        this.roomType = roomType;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
     }
 
     public BookingDTO() {

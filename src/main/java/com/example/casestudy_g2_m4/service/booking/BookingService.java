@@ -1,13 +1,5 @@
 package com.example.casestudy_g2_m4.service.booking;
 
-import com.example.casestudy_g2_m4.model.*;
-import com.example.casestudy_g2_m4.repository.IBookingRepository;
-import com.example.casestudy_g2_m4.service.room.IRoomService;
-import com.example.casestudy_g2_m4.service.roomtype.IRoomTypeService;
-import com.example.casestudy_g2_m4.service.user.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -15,6 +7,19 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.casestudy_g2_m4.model.Booking;
+import com.example.casestudy_g2_m4.model.BookingDTO;
+import com.example.casestudy_g2_m4.model.Room;
+import com.example.casestudy_g2_m4.model.RoomType;
+import com.example.casestudy_g2_m4.model.User;
+import com.example.casestudy_g2_m4.repository.IBookingRepository;
+import com.example.casestudy_g2_m4.service.room.IRoomService;
+import com.example.casestudy_g2_m4.service.roomtype.IRoomTypeService;
+import com.example.casestudy_g2_m4.service.user.IUserService;
 
 @Service
 public class BookingService implements IBookingService {
@@ -54,20 +59,12 @@ public class BookingService implements IBookingService {
         } else {
             throw new RuntimeException("Vui lòng chọn hoặc nhập tên người dùng");
         }
-
         // Lấy tên loại phòng từ BookingDTO
         String enteredRoomTypeName = bookingDTO.getRoomType();
         if (enteredRoomTypeName == null || enteredRoomTypeName.trim().isEmpty()) {
             throw new RuntimeException("Vui lòng nhập loại phòng");
         }
-
-        // Chuẩn hóa tên loại phòng
-        enteredRoomTypeName = Stream.of(enteredRoomTypeName.trim().toLowerCase().split("\\s+"))
-                .filter(word -> !word.isEmpty())
-                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
-                .collect(Collectors.joining(" "));
-
-        // Kiểm tra RoomType
+        enteredRoomTypeName = Stream.of(enteredRoomTypeName.trim().toLowerCase().split("\\s+")).filter(word -> !word.isEmpty()).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.joining(" "));
         String finalEnteredRoomTypeName = enteredRoomTypeName;
         RoomType roomType = roomTypeService.findByName(enteredRoomTypeName)
                 .orElseGet(() -> {
@@ -78,8 +75,6 @@ public class BookingService implements IBookingService {
                     newRoomType.setDescription("User-entered RoomType");
                     return roomTypeService.save(newRoomType);
                 });
-
-        // Tạo Room
         Room room = new Room();
         room.setRoomType(roomType);
         int randomFloor = new Random().nextInt(5) + 1;
@@ -87,8 +82,6 @@ public class BookingService implements IBookingService {
         room.setRoomNumber(randomRoomNumber);
         room.setStatus(Room.Status.available);
         room = roomService.save(room);
-
-        // Tạo Booking và ánh xạ dữ liệu
         Booking booking = new Booking();
         booking.setUser(user);
         booking.setRoom(room);
@@ -97,8 +90,6 @@ public class BookingService implements IBookingService {
         booking.setStatus(Booking.Status.pending);
         booking.setPaymentStatus(Booking.PaymentStatus.unpaid);
         booking.setCreatedAt(LocalDateTime.now());
-
-        // Lưu Booking
         addBooking(booking);
     }
 
