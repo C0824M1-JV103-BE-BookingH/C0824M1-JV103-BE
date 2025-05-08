@@ -17,6 +17,18 @@
                 <label for="firstName">Tên</label>
                 <input type="text" id="firstName" name="userName" placeholder="Tên" required>
             </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="paymentMethod">Phương thức thanh toán</label>
+            <select id="paymentMethod" name="paymentMethod" required>
+                <option value="CASH">Tiền mặt</option>
+                <option value="BANK_TRANSFER">Chuyển khoản</option>
+                <option value="CARD">Thẻ</option>
+            </select>
         </div>
         <input type="hidden" name="roomType" th:value="${roomType}">
         <input type="hidden" name="checkIn" th:value="${#strings.contains(checkIn, 'T') ? checkIn : checkIn + 'T00:00'}">

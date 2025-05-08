@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.casestudy_g2_m4.model.Booking;
 import com.example.casestudy_g2_m4.model.BookingDTO;
+import com.example.casestudy_g2_m4.model.BookingInfo;
+import com.example.casestudy_g2_m4.model.Payment;
 import com.example.casestudy_g2_m4.model.Room;
 import com.example.casestudy_g2_m4.model.RoomType;
-import com.example.casestudy_g2_m4.model.User;
 import com.example.casestudy_g2_m4.repository.IBookingRepository;
+import com.example.casestudy_g2_m4.repository.IPaymentRepository;
+import com.example.casestudy_g2_m4.service.bookinginfo.IBookingInfoService;
 import com.example.casestudy_g2_m4.service.room.IRoomService;
 import com.example.casestudy_g2_m4.service.roomtype.IRoomTypeService;
 import com.example.casestudy_g2_m4.service.user.IUserService;
@@ -32,6 +35,10 @@ public class BookingService implements IBookingService {
     private IRoomTypeService roomTypeService;
     @Autowired
     private IRoomService roomService;
+    @Autowired
+    private IBookingInfoService bookingInfoService;
+    @Autowired
+    private IPaymentRepository paymentRepository;
 
     @Override
     public List<Booking> findAllBooking() {
@@ -45,26 +52,21 @@ public class BookingService implements IBookingService {
 
     @Override
     public void addBooking(BookingDTO bookingDTO) {
-        // Kiểm tra và xử lý User
-        User user = null;
-        if (bookingDTO.getUserName() != null && !bookingDTO.getUserName().trim().isEmpty()) {
-            User newUser = new User();
-            newUser.setName(bookingDTO.getUserName().trim());
-            newUser.setRole(User.Role.customer);
-            newUser.setStatus(User.Status.active);
-            user = userService.saveUser(newUser);
-            if (user.getId() == null) {
-                throw new RuntimeException("Không thể lưu người dùng mới vào cơ sở dữ liệu");
-            }
-        } else {
-            throw new RuntimeException("Vui lòng chọn hoặc nhập tên người dùng");
-        }
+        // Tạo BookingInfo mới
+        BookingInfo bookingInfo = new BookingInfo();
+        bookingInfo.setName(bookingDTO.getUserName().trim());
+        bookingInfo.setEmail(bookingDTO.getEmail());
+        bookingInfo = bookingInfoService.save(bookingInfo);
+        
         // Lấy tên loại phòng từ BookingDTO
         String enteredRoomTypeName = bookingDTO.getRoomType();
         if (enteredRoomTypeName == null || enteredRoomTypeName.trim().isEmpty()) {
             throw new RuntimeException("Vui lòng nhập loại phòng");
         }
-        enteredRoomTypeName = Stream.of(enteredRoomTypeName.trim().toLowerCase().split("\\s+")).filter(word -> !word.isEmpty()).map(word -> word.substring(0, 1).toUpperCase() + word.substring(1)).collect(Collectors.joining(" "));
+        enteredRoomTypeName = Stream.of(enteredRoomTypeName.trim().toLowerCase().split("\\s+"))
+                .filter(word -> !word.isEmpty())
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                .collect(Collectors.joining(" "));
         String finalEnteredRoomTypeName = enteredRoomTypeName;
         RoomType roomType = roomTypeService.findByName(enteredRoomTypeName)
                 .orElseGet(() -> {
@@ -82,8 +84,9 @@ public class BookingService implements IBookingService {
         room.setRoomNumber(randomRoomNumber);
         room.setStatus(Room.Status.available);
         room = roomService.save(room);
+        
         Booking booking = new Booking();
-        booking.setUser(user);
+        booking.setBookingInfo(bookingInfo);
         booking.setRoom(room);
         booking.setCheckIn(bookingDTO.getCheckIn());
         booking.setCheckOut(bookingDTO.getCheckOut());
@@ -91,6 +94,30 @@ public class BookingService implements IBookingService {
         booking.setPaymentStatus(Booking.PaymentStatus.unpaid);
         booking.setCreatedAt(LocalDateTime.now());
         addBooking(booking);
+
+        // Tạo payment mới
+        Payment payment = new Payment();
+        payment.setBooking(booking);
+        payment.setAmount(bookingDTO.getPrice());
+        if (bookingDTO.getPaymentMethod() != null) {
+            switch (bookingDTO.getPaymentMethod()) {
+                case "CASH":
+                    payment.setMethod(Payment.Method.cash);
+                    break;
+                case "BANK_TRANSFER":
+                    payment.setMethod(Payment.Method.bank);
+                    break;
+                case "CARD":
+                    payment.setMethod(Payment.Method.card);
+                    break;
+                default:
+                    payment.setMethod(Payment.Method.cash);
+            }
+        } else {
+            payment.setMethod(Payment.Method.cash);
+        }
+        payment.setPaidAt(LocalDateTime.now());
+        paymentRepository.save(payment);
     }
 
     @Override
@@ -105,14 +132,16 @@ public class BookingService implements IBookingService {
         exitingBoooking.setCheckOut(bookingDTO.getCheckOut());
         exitingBoooking.setStatus(Booking.Status.valueOf(bookingDTO.getStatus()));
         exitingBoooking.setPaymentStatus(Booking.PaymentStatus.valueOf(bookingDTO.getPaymentStatus()));
+        // Cập nhật tên và email qua bookingInfo
         if (bookingDTO.getUserName() != null && !bookingDTO.getUserName().trim().isEmpty()) {
-            User user = exitingBoooking.getUser();
-            if (user == null) {
-                user = new User();
-                exitingBoooking.setUser(user);
+            BookingInfo bookingInfo = exitingBoooking.getBookingInfo();
+            if (bookingInfo == null) {
+                bookingInfo = new BookingInfo();
+                exitingBoooking.setBookingInfo(bookingInfo);
             }
-            user.setName(bookingDTO.getUserName().trim());
-            userService.saveUser(user);
+            bookingInfo.setName(bookingDTO.getUserName().trim());
+            bookingInfo.setEmail(bookingDTO.getEmail());
+            bookingInfoService.save(bookingInfo);
         }
         if (bookingDTO.getRoomType() != null && !bookingDTO.getRoomType().trim().isEmpty()) {
             Room room = exitingBoooking.getRoom();
@@ -135,8 +164,6 @@ public class BookingService implements IBookingService {
                 room.setRoomType(roomType);
                 roomService.save(room);
             }
-
-
         }
     }
 

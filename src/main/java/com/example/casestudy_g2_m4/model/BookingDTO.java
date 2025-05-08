@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 
 public class BookingDTO {
     private Integer id;
-    private Integer userId;
     @NotBlank(message = "User name is required")
     private String userName;
     @NotBlank(message = "Room type is required")
@@ -24,14 +23,17 @@ public class BookingDTO {
     private String createdAt;
     private String status;
     private String paymentStatus;
+    private String email;
+    private String paymentMethod;
+    private Double price;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     // Constructor để ánh xạ từ Booking
     public BookingDTO(Booking booking) {
         this.id = booking.getId();
-        this.userId = booking.getUser() != null ? booking.getUser().getId() : null;
-        this.userName = booking.getUser() != null ? booking.getUser().getName() : "";
+        this.userName = booking.getBookingInfo() != null ? booking.getBookingInfo().getName() : "";
+        this.email = booking.getBookingInfo() != null ? booking.getBookingInfo().getEmail() : "";
         this.roomType = booking.getRoom() != null && booking.getRoom().getRoomType() != null
                 ? booking.getRoom().getRoomType().getName() : "";
         this.checkIn = booking.getCheckIn();
@@ -41,8 +43,9 @@ public class BookingDTO {
         this.paymentStatus = booking.getPaymentStatus() != null ? booking.getPaymentStatus().toString() : "";
     }
 
-    public BookingDTO(String userName, String roomType, LocalDateTime checkIn, LocalDateTime checkOut) {
+    public BookingDTO(String userName, String email, String roomType, LocalDateTime checkIn, LocalDateTime checkOut) {
         this.userName = userName;
+        this.email = email;
         this.roomType = roomType;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
@@ -57,14 +60,6 @@ public class BookingDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getUserName() {
@@ -121,5 +116,29 @@ public class BookingDTO {
 
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }
