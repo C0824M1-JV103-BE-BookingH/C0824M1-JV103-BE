@@ -14,9 +14,8 @@ import java.util.List;
 public interface IBookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT b FROM Booking b " +
-            "JOIN b.user u " +
             "JOIN b.room r " +
-            "WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "WHERE (b.bookingInfo.name IS NOT NULL AND LOWER(b.bookingInfo.name) LIKE LOWER(CONCAT('%', :keyword, '%')) )" +
             "OR LOWER(r.roomType.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(b.status) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(b.paymentStatus) LIKE LOWER(CONCAT('%', :keyword, '%'))" +

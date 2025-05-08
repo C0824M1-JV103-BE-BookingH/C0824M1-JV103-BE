@@ -15,4 +15,9 @@ public class BookingInfoService implements IBookingInfoService {
     public BookingInfo save(BookingInfo bookingInfo) {
         return bookingInfoRepository.save(bookingInfo);
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        bookingInfoRepository.deleteById(id);
+    }
 } 

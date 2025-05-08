@@ -4,4 +4,5 @@ import com.example.casestudy_g2_m4.model.BookingInfo;
 
 public interface IBookingInfoService {
     BookingInfo save(BookingInfo bookingInfo);
+    void  deleteById(Integer id);
 } 

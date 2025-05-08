@@ -23,6 +23,7 @@ import com.example.casestudy_g2_m4.service.bookinginfo.IBookingInfoService;
 import com.example.casestudy_g2_m4.service.room.IRoomService;
 import com.example.casestudy_g2_m4.service.roomtype.IRoomTypeService;
 import com.example.casestudy_g2_m4.service.user.IUserService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookingService implements IBookingService {
@@ -126,6 +127,7 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    @Transactional
     public void updateBooking(BookingDTO bookingDTO) {
         Booking exitingBoooking = bookingRepository.findById(bookingDTO.getId()).orElseThrow(() -> new RuntimeException("Booking not found"));
         exitingBoooking.setCheckIn(bookingDTO.getCheckIn());
@@ -169,6 +171,7 @@ public class BookingService implements IBookingService {
 
     @Override
     public void deleteBooking(Integer id) {
+        paymentRepository.deleteByBookingId(id);
         bookingRepository.deleteById(id);
     }
 
