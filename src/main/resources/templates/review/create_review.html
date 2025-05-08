@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Viết Đánh Giá</title>
+</head>
+<body>
+<h2>Đánh giá khách sạn</h2>
+
+<form th:action="@{'/reviews/create/' + ${hotel.id}}" th:object="${review}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+</form>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+        const rating = document.querySelector("[name='rating']").value;
+        const comment = document.querySelector("[name='comment']").value;
+        if (rating < 1 || rating > 5) {
+            alert("Rating must be between 1 and 5!");
+            event.preventDefault(); // Prevent form submission
+        }
+        if (!comment.trim()) {
+            alert("Comment is required!");
+            event.preventDefault();
+        }
+    });
+</script>
+</body>
+</html>
