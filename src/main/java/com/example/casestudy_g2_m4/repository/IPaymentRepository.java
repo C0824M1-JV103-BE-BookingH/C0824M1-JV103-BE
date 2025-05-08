@@ -25,6 +25,7 @@ public interface IPaymentRepository extends JpaRepository<Payment, Integer> {
 
     @Query("SELECT FUNCTION('DATE_FORMAT', p.paidAt, '%Y-%m') as month, SUM(p.amount + COALESCE(p.surcharge, 0)) as revenue " +
             "FROM Payment p " +
+            "WHERE p.booking.paymentStatus = 'paid' " +
             "GROUP BY FUNCTION('DATE_FORMAT', p.paidAt, '%Y-%m') " +
             "ORDER BY FUNCTION('DATE_FORMAT', p.paidAt, '%Y-%m')")
     List<Object[]> findRevenueByMonth();
