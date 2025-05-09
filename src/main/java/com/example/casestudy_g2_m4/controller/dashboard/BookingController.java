@@ -117,19 +117,24 @@ public class BookingController {
         try {
             bookingService.addBooking(bookingDTO);
             redirectAttributes.addFlashAttribute("message", "Booking successfully");
+            redirectAttributes.addAttribute("userName", bookingDTO.getUserName());
+            redirectAttributes.addAttribute("email", bookingDTO.getEmail());
+            redirectAttributes.addAttribute("paymentMethod", bookingDTO.getPaymentMethod());
+            redirectAttributes.addAttribute("roomType", bookingDTO.getRoomType());
+            redirectAttributes.addAttribute("checkIn", bookingDTO.getCheckIn());
+            redirectAttributes.addAttribute("checkOut", bookingDTO.getCheckOut());
+            redirectAttributes.addAttribute("price", bookingDTO.getPrice());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            boolean isUser = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER") || auth.getAuthority().equals("ROLE_CUSTOMER"));
+            if (isUser) {
+                return "redirect:/confirm_booking";
+            } else {
+                return "redirect:/list_booking";
+            }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/show-form-add";
-        }
-
-        // Check role
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isUser = authentication.getAuthorities().stream()
-            .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER") || auth.getAuthority().equals("ROLE_CUSTOMER"));
-        if (isUser) {
-            return "redirect:/";
-        } else {
-            return "redirect:/list_booking";
         }
     }
 
