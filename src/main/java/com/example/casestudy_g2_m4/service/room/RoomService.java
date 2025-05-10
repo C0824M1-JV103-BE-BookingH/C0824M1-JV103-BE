@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -24,6 +24,26 @@ public class RoomService implements IRoomService {
     @Override
     public Room save(Room room) {
         return roomRepository.save(room);
+    }
+
+    @Override
+    public boolean existsByRoomNumber(String roomNumber) {
+        return roomRepository.existsByRoomNumber(roomNumber);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        roomRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Room> findById(Integer id) {
+        return roomRepository.findById(id);
+    }
+
+    @Override
+    public Room findByRoomNumber(String roomNumber) {
+        return roomRepository.findByRoomNumber(roomNumber);
     }
 
 }

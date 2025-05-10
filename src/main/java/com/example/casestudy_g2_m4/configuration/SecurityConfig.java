@@ -58,6 +58,7 @@ public class SecurityConfig {
                         .requestMatchers("/dashboard/**","/rooms","/finance","/hotel-inf","/list_booking","/show-form-add").hasRole("ADMIN") // Yêu cầu role ADMIN
                         .requestMatchers("/user/**").hasRole("CUSTOMER") // Yêu cầu Role CUSTOMER
                         .requestMatchers("/staff/**").hasRole("STAFF") // Yêu cầu Role STAFF
+                        .requestMatchers("/add_booking").hasAnyRole("ADMIN", "CUSTOMER") // Cho phép cả ADMIN và CUSTOMER
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
