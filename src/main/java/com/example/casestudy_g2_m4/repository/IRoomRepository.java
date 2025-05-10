@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface IRoomRepository extends JpaRepository<Room, Integer> {
     @Override
     Page<Room> findAll(Pageable pageable);
+    boolean existsByRoomNumber(String roomNumber);
+    Room findByRoomNumber(String roomNumber);
 }
