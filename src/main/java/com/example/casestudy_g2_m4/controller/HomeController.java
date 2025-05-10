@@ -57,7 +57,6 @@ public class HomeController {
         modelAndView.addObject("booking", roomTypeService.findAllRoomType());
         modelAndView.addObject("checkIn", checkIn);
         modelAndView.addObject("checkOut", checkOut);
-        // Tính số ngày ở lại nếu có đủ thông tin
         long days = 0;
         if (checkIn != null && checkOut != null && !checkIn.isEmpty() && !checkOut.isEmpty()) {
             try {

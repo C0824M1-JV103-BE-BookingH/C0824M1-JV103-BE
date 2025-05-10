@@ -94,7 +94,6 @@ public class BookingController {
             modelAndView.addObject("checkOut", checkOut);
             modelAndView.addObject("createdAt", createdAt);
         } else {
-            // Nếu không có keyword, hiển thị toàn bộ danh sách booking
             List<Booking> bookings = bookingService.findAllBooking();
             bookingDTOs = bookings.stream()
                     .map(BookingDTO::new)
@@ -125,12 +124,12 @@ public class BookingController {
             redirectAttributes.addAttribute("checkOut", bookingDTO.getCheckOut());
             redirectAttributes.addAttribute("price", bookingDTO.getPrice());
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            boolean isUser = authentication.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER") || auth.getAuthority().equals("ROLE_CUSTOMER"));
-            if (isUser) {
-                return "redirect:/confirm_booking";
-            } else {
+            boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+            if (isAdmin) {
                 return "redirect:/list_booking";
+            } else {
+                return "redirect:/confirm_booking";
             }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
