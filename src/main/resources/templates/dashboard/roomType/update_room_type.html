@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Room Type</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
+<h2>Update Room Type</h2>
+<form th:action="@{/update-room-type/{id}(id=${roomType.id})}" method="post" th:object="${roomType}">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control mt-2" placeholder="Enter room name" name="name" id="name"
+               th:field="*{name}">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control mt-2" placeholder="Enter description" name="description" id="description"
+               th:field="*{description}">
+    </div>
+
+    <div class="form-group">
+        <label for="maxPeople">Minimal person</label>
+        <input type="text" class="form-control mt-2" placeholder="Enter minimal person" name="maxPeople" id="maxPeople"
+               th:field="*{maxPeople}">
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input type="text" class="form-control mt-2" placeholder="Enter price" name="price" id="price"
+               th:field="*{price}">
+    </div>
+
+    <div class="form-group">
+        <label for="imageUrl">Photos</label>
+        <input type="text" class="form-control" name="imageUrl" id="imageUrl" placeholder="Enter room photos"
+               th:field="*{imageUrl}">
+    </div>
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Update Room Type</button>
+        <a href="javascript:window.history.go(-1)" class="btn btn-secondary">Back</a>
+    </div>
+</form>
+</body>
+</html>

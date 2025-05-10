@@ -77,7 +77,7 @@
         <div class="room-info">
             <h2 th:text="${b.name}"></h2>
             <p th:text="${b.description}"></p>
-            <p>Số người: <span th:text="${b.maxPeople}"></span></p>
+            <p th:text="'👤 Max ' + ${b.maxPeople} + ' Guests'"></p>
         </div>
         <div class="room-price">
             <p class="price" th:text="'$' + ${b.price} + ' USD'"></p>
