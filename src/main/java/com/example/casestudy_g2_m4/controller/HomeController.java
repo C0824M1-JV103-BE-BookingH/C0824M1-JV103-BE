@@ -1,8 +1,8 @@
 package com.example.casestudy_g2_m4.controller;
 
-import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,7 +53,7 @@ public class HomeController {
     public ModelAndView booking(@RequestParam(value = "checkIn", required = false) String checkIn,
                                @RequestParam(value = "checkOut", required = false) String checkOut) {
         ModelAndView modelAndView = new ModelAndView("book_now");
-        modelAndView.addObject("booking", roomTypeService.findAllRoomType());
+        modelAndView.addObject("booking", roomTypeService.findAll());
         modelAndView.addObject("checkIn", checkIn);
         modelAndView.addObject("checkOut", checkOut);
         long days = 0;
@@ -83,7 +82,7 @@ public class HomeController {
             Model model) {
         // Get the logged-in user's email
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication != null && authentication.isAuthenticated() ? 
+        String userEmail = authentication != null && authentication.isAuthenticated() ?
             authentication.getName() : "";
         
         model.addAttribute("roomType", roomType);
