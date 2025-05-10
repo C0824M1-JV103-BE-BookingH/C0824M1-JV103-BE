@@ -68,4 +68,17 @@ public class User {
     public void setRole(Role role) { this.role = role; }
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", role=" + role +
+                ", status=" + status +
+                '}';
+    }
 }
