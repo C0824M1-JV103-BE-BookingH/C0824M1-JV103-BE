@@ -9,4 +9,8 @@ public interface IUserService {
     List<User> findAllUsers();
     User saveUser(User user);
     Optional<User> findById(Integer id);
+
+    User findByEmail(String name);
+
+    void save(User existingUser);
 }

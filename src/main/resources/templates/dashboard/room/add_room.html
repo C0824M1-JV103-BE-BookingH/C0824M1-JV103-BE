@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm phòng mới</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
+<h2>Add Room</h2>
+<form th:action="@{/add-room}" method="post" th:object="${room}">
+    <div class="form-group">
+        <label for="roomNumber">Room number</label>
+        <input type="text" class="form-control mt-2" placeholder="Enter room number" name="roomNumber" id="roomNumber" th:field="*{roomNumber}">
+    </div>
+
+    <div class="form-group">
+        <label>Room Type</label>
+        <select class="form-control" th:field="*{roomType}">
+<!--            <option value="">&#45;&#45; Select room type &#45;&#45;</option>-->
+            <option th:each="r : ${roomTypes}" th:value="${r.id}" th:text="${r.name}"></option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Status</label>
+        <select class="form-control" th:field="*{status}">
+            <option value="">-- Select status --</option>
+            <option th:value="available">available</option>
+            <option th:value="booked">booked</option>
+            <option th:value="maintenance">maintenance</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="imageUrl">Photos</label>
+        <input type="text" class="form-control" name="imageUrl" id="imageUrl" placeholder="Enter room photos" th:field="*{imageUrl}">
+    </div>
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Add Booking</button>
+        <a href="javascript:window.history.go(-1)" class="btn btn-secondary">Return</a>
+    </div>
+</form>
+</body>
+</html>

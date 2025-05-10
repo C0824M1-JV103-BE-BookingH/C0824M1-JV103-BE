@@ -8,4 +8,6 @@ public interface IHotelService {
     List<Hotel> findAll();
     Hotel findByOwner(String owner);
     void update(Hotel hotel);
+
+    Hotel findById(Integer hotelId);
 }
