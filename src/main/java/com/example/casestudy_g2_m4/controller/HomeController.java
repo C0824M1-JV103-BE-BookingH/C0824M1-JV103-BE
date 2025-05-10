@@ -46,6 +46,6 @@ public class HomeController {
 
     @GetMapping("bookingNow")
     public ModelAndView booking() {
-        return new ModelAndView("dashboard/book_now").addObject("booking", roomTypeService.findAll());
+        return new ModelAndView("dashboard/book_now").addObject("booking", roomTypeService.findAllRoomType());
     }
 }

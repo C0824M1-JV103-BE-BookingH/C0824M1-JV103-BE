@@ -50,7 +50,7 @@ public class RoomController {
         if (!model.containsAttribute("roomDTO")) {
             model.addAttribute("roomDTO", new RoomDTO());
         }
-        model.addAttribute("roomTypes", roomTypeService.findAll());
+        model.addAttribute("roomTypes", roomTypeService.findAllRoomType());
         return "dashboard/room/add_room";
     }
 
@@ -123,7 +123,7 @@ public class RoomController {
         roomDTO.setRoomTypeId(room.getRoomType() != null ? room.getRoomType().getId() : null);
 
         model.addAttribute("roomDTO", roomDTO);
-        model.addAttribute("roomTypes", roomTypeService.findAll());
+        model.addAttribute("roomTypes", roomTypeService.findAllRoomType());
         return "dashboard/room/update_room";
     }
 
@@ -176,7 +176,7 @@ public class RoomController {
     @GetMapping("show-form-room-type")
     public ModelAndView showRoomTypeList(@RequestParam(name = "pageRoomType", required = false, defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 4);
-        return new ModelAndView("dashboard/roomType/list_room_type").addObject("listType", roomTypeService.findAllRoomType(pageable));
+        return new ModelAndView("dashboard/roomType/list_room_type").addObject("listType", roomTypeService.findAll(pageable));
     }
 
     @GetMapping("show-form-add-room-type")

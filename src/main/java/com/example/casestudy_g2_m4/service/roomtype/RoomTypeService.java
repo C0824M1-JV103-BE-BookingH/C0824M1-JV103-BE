@@ -16,12 +16,12 @@ public class RoomTypeService implements IRoomTypeService {
     private IRoomtypeRepository roomTypeRepository;
 
     @Override
-    public List<RoomType> findAll() {
+    public List<RoomType> findAllRoomType() {
         return roomTypeRepository.findAll();
     }
 
     @Override
-    public Page<RoomType> findAllRoomType(Pageable pageable) {
+    public Page<RoomType> findAll(Pageable pageable) {
         return roomTypeRepository.findAll(pageable);
     }
 

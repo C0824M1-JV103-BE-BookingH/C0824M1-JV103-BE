@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IRoomTypeService {
-    List<RoomType> findAll();
-    Page<RoomType> findAllRoomType(Pageable pageable);
+    List<RoomType> findAllRoomType();
+    Page<RoomType> findAll(Pageable pageable);
     RoomType save(RoomType roomType);
     Optional<RoomType> findByName(String name);
     Optional<RoomType> findById(Integer id);
