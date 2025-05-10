@@ -7,11 +7,7 @@
     <link rel="stylesheet" th:href="@{/book.css}" />
   </head>
   <body>
-    <div
-      id="sidebar-container"
-      style="display: block"
-      th:insert="~{navbar}"
-    ></div>
+    <div th:replace="~{navbar :: navbar}"></div>
     <div class="booking-container">
       <!-- FORM BÊN TRÁI -->
       <form class="booking-form" th:action="@{/add_booking}" method="post">
