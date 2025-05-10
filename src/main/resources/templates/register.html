@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/navbar.css}">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .register-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    width: 500px;
+    max-width: 90%;
+  }
+  .register-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .register-form input {
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    border: none;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  .register-form input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .register-form button {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background-color: #c8a97e;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .register-form button:hover {
+    background-color: #b6986d;
+  }
+  .register-form a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #c8a97e;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+  .register-form a:hover {
+    color: #b6986d;
+  }
+  .error-message {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: -10px;
+    text-align: left;
+  }
+</style>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="video-container">
+  <video
+          src="https://res.cloudinary.com/dd8ryf97c/video/upload/siqzcaha4dbynmy4otyy.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+  ></video>
+  <div class="register-container">
+    <h2  th:text="#{app.register_count}"></h2>
+    <form class="register-form" method="post" action="/register" th:object="${user}">
+      <input type="text" name="name" th:attr="placeholder=#{app.username}" required>
+      <input type="email" name="email" th:attr=" placeholder=#{app.email}" required>
+      <input type="password" name="password" th:attr=" placeholder=#{app.password}" required>
+      <input type="password" name="confirmPassword" th:attr=" placeholder=#{app.confirm_pass}" required>
+      <input type="tel" name="phone" th:attr=" placeholder=#{app.phone}" required>
+      <button type="submit" th:text="#{app.register}"></button>
+      <a href="/login" th:text="#{app.Login}"></a>
+    </form>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    checkScroll();
+    window.addEventListener('scroll', checkScroll);
+
+    function checkScroll() {
+      const navbar = document.querySelector('.navbar');
+      const topBar = document.querySelector('.top-bar');
+
+      if (window.pageYOffset > 20) {
+        navbar.classList.add('scrolled');
+        topBar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+        topBar.classList.remove('scrolled');
+      }
+    }
+  });
+</script>
+</body>
+</html>

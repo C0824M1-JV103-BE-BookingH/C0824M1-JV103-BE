@@ -107,10 +107,10 @@
     <div class="login-container">
         <h2 th:text="#{app.LOGIN}">Login</h2>
         <form class="login-form" method="post" action="/login">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="email" name="email" th:attr=" placeholder=#{app.email}" required>
+            <input type="password" name="password" th:attr=" placeholder=#{app.password}" required>
             <button type="submit" th:text="#{app.Login}">LOGIN</button>
-            <a th:text="#{app.forgot}" href="#">Forgot Password?</a>
+            <a th:text="#{app.register}" th:href="@{/register}"></a>
         </form>
     </div>
 </div>

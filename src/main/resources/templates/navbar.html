@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotale - Navbar</title>
-    <style>
-        body {
-            font-family: Arial, "Times New Roman", sans-serif;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/navbar.css}">
 </head>
 <body>
 <!-- Fragment cho Navbar -->
@@ -45,38 +41,122 @@
                         <a href="?lang=ja" class="language-option">日本語</a>
                     </div>
                 </div>
-                <button class="book-now-btn" ><a th:href="@{/bookingNow}">BOOK NOW</a></button>
+                <button class="book-now-btn" id="openBookingModalNavbar" th:text="#{app.booknow}">BOOK NOW</button>
+                <!-- Modal đặt phòng -->
+                <div id="bookingModal" class="modal">
+                    <div class="booking-modal-content-popover">
+                        <span class="close" id="closeBookingModal">×</span>
+                        <h2 class="modal-title" th:text="#{app.datcho}">ĐẶT CHỖ</h2>
+                        <form th:action="@{/bookingNow}" method="get" class="booking-form-modal">
+                            <div class="row-modal">
+                                <div class="col-modal">
+                                    <label for="checkIn" th:text="#{app.nhan}">Nhận phòng</label>
+                                    <input type="date" id="checkIn" name="checkIn" required>
+                                </div>
+                                <div class="col-modal">
+                                    <label for="checkOut" th:text="#{app.tra}">Trả phòng</label>
+                                    <input type="date" id="checkOut" name="checkOut" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-modal-submit" th:text="#{app.search}">TÌM KIẾM</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
-</div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'939cb257cbea7bcf',t:'MTc0NjI0MzIwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const languageOptions = document.querySelectorAll('.language-option');
-        languageOptions.forEach(option => {
-            option.addEventListener('click', function(event) {
-                event.preventDefault();
-                const lang = this.getAttribute('href').split('=')[1];
-                const currentUrl = new URL(window.location.href);
-                currentUrl.searchParams.set('lang', lang);
-                window.location.href = currentUrl.toString();
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language switcher functionality
+            const languageOptions = document.querySelectorAll('.language-option');
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const lang = this.getAttribute('href').split('=')[1];
+                    const currentUrl = new URL(window.location.href);
+                    currentUrl.searchParams.set('lang', lang);
+                    window.location.href = currentUrl.toString();
+                });
             });
-        });
 
-        const languageButton = document.querySelector('.language-switcher');
-        const languageDropdown = document.querySelector('.language-dropdown');
-        languageButton.addEventListener('click', function(event) {
-            event.stopPropagation();
-            languageDropdown.classList.toggle('active');
-        });
-        document.addEventListener('click', function(event) {
-            if (!languageButton.contains(event.target) && !languageDropdown.contains(event.target)) {
-                languageDropdown.classList.remove('active');
+            const languageButton = document.querySelector('.language-switcher');
+            const languageDropdown = document.querySelector('.language-dropdown');
+            if (languageButton && languageDropdown) {
+                languageButton.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    languageDropdown.classList.toggle('active');
+                });
+                document.addEventListener('click', function(event) {
+                    if (!languageButton.contains(event.target) && !languageDropdown.contains(event.target)) {
+                        languageDropdown.classList.remove('active');
+                    }
+                });
+            }
+
+            // Booking modal functionality
+            const openBtnNavbar = document.getElementById('openBookingModalNavbar');
+            const modal = document.getElementById('bookingModal');
+            const modalContent = document.querySelector('.booking-modal-content-popover');
+            const closeBtn = document.getElementById('closeBookingModal');
+
+            function hideModal() {
+                modal.style.display = 'none';
+            }
+
+            if (openBtnNavbar && modal && closeBtn && modalContent) {
+                openBtnNavbar.addEventListener('click', function() {
+                    const rect = openBtnNavbar.getBoundingClientRect();
+                    const modalWidth = modalContent.offsetWidth;
+                    const windowWidth = window.innerWidth;
+
+                    // Position vertically below the button
+                    modalContent.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+
+                    // Center the modal horizontally relative to the button
+                    let leftPosition = rect.left + window.scrollX + (rect.width / 2) - (modalWidth / 2);
+
+                    // Ensure the modal doesn't go off-screen
+                    if (leftPosition < 10) {
+                        leftPosition = 10; // Keep a small margin from the left edge
+                    } else if (leftPosition + modalWidth > windowWidth - 10) {
+                        leftPosition = windowWidth - modalWidth - 10; // Keep a small margin from the right edge
+                    }
+
+                    modalContent.style.left = leftPosition + 'px';
+                    modal.style.display = 'block';
+                });
+
+                closeBtn.addEventListener('click', hideModal);
+
+                window.addEventListener('click', function(event) {
+                    if (event.target === modal) {
+                        hideModal();
+                    }
+                });
+
+                // Adjust position on window resize
+                window.addEventListener('resize', function() {
+                    if (modal.style.display === 'block') {
+                        const rect = openBtnNavbar.getBoundingClientRect();
+                        const modalWidth = modalContent.offsetWidth;
+                        const windowWidth = window.innerWidth;
+
+                        modalContent.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+                        let leftPosition = rect.left + window.scrollX + (rect.width / 2) - (modalWidth / 2);
+
+                        if (leftPosition < 10) {
+                            leftPosition = 10;
+                        } else if (leftPosition + modalWidth > windowWidth - 10) {
+                            leftPosition = windowWidth - modalWidth - 10;
+                        }
+
+                        modalContent.style.left = leftPosition + 'px';
+                    }
+                });
             }
         });
-    });
-</script>
+    </script>
+</div>
 </body>
 </html>

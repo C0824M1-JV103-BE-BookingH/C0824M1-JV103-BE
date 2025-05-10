@@ -1,26 +1,34 @@
 package com.example.casestudy_g2_m4.controller.dashboard;
 
-import com.example.casestudy_g2_m4.model.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.casestudy_g2_m4.model.Booking;
+import com.example.casestudy_g2_m4.model.BookingDTO;
 import com.example.casestudy_g2_m4.service.booking.IBookingService;
 import com.example.casestudy_g2_m4.service.room.IRoomService;
 import com.example.casestudy_g2_m4.service.roomtype.IRoomTypeService;
 import com.example.casestudy_g2_m4.service.user.IUserService;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/")
@@ -109,14 +117,26 @@ public class BookingController {
         try {
             bookingService.addBooking(bookingDTO);
             redirectAttributes.addFlashAttribute("message", "Booking successfully");
+            redirectAttributes.addAttribute("userName", bookingDTO.getUserName());
+            redirectAttributes.addAttribute("email", bookingDTO.getEmail());
+            redirectAttributes.addAttribute("paymentMethod", bookingDTO.getPaymentMethod());
+            redirectAttributes.addAttribute("roomType", bookingDTO.getRoomType());
+            redirectAttributes.addAttribute("checkIn", bookingDTO.getCheckIn());
+            redirectAttributes.addAttribute("checkOut", bookingDTO.getCheckOut());
+            redirectAttributes.addAttribute("price", bookingDTO.getPrice());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            boolean isUser = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER") || auth.getAuthority().equals("ROLE_CUSTOMER"));
+            if (isUser) {
+                return "redirect:/confirm_booking";
+            } else {
+                return "redirect:/list_booking";
+            }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/show-form-add";
         }
-
-        return "redirect:/show-form-add";
-        }
-
-
+    }
 
     @GetMapping("show-form-add")
     public String showFormAdd(Model model) {
@@ -159,7 +179,7 @@ public class BookingController {
             bookingService.deleteBooking(id);
             redirectAttributes.addFlashAttribute("message", "Booking deleted successfully");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to delete booking: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Failed to delete booking");
         }
         return "redirect:/list_booking";
     }

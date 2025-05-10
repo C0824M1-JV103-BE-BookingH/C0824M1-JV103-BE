@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Successful booking</title>
+    <link rel="stylesheet" th:href="@{/book_room.css}" />
+    <link rel="stylesheet" th:href="@{/book.css}" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .confirmation-container {
+            max-width: 800px;
+            margin: 200px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+        .confirmation-container .success-icon {
+            font-size: 50px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .confirmation-container h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .confirmation-container p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .continue-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .continue-btn:hover {
+            background-color: #0056b3;
+        }
+        .booking-details {
+            margin-top: 30px;
+            text-align: left;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .booking-details h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .booking-details .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        .booking-details .detail-row:last-child {
+            border-bottom: none;
+        }
+        .booking-details .label {
+            font-weight: bold;
+            color: #333;
+        }
+        .booking-details .value {
+            color: #666;
+        }
+        .booking-details .total {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div
+        id="sidebar-container"
+        style="display: block"
+        th:insert="~{navbar}"
+></div>
+<div class="confirmation-container">
+    <div class="success-icon">✔</div>
+    <h2>Successful booking!</h2>
+    <p>
+        Thank you for booking a room at our hotel.<br />
+        We have sent your booking information to your email.<br />
+        We will send your booking information to your email once your order is processed.
+    </p>
+    <a th:href="@{/}" class="continue-btn">Continue booking</a>
+
+    <div class="booking-details">
+        <h3>Booking details</h3>
+        <div class="detail-row">
+            <span class="label">Booking date:</span>
+            <span class="value" th:text="${createdAt}"></span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Total price:</span>
+            <span class="total" th:text="${#numbers.formatDecimal(price, 0, 'COMMA', 2, 'POINT')} + ' VND'"></span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Status:</span>
+            <span class="value">Pending</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Your name:</span>
+            <span class="value" th:text="${userName}"></span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Email:</span>
+            <span class="value" th:text="${email}"></span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Roome type:</span>
+            <span class="value" th:text="${roomType}"></span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Check-in date:</span>
+            <span class="value" th:text="${checkIn}"></span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Check-out date:</span>
+            <span class="value" th:text="${checkOut}"></span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Payment method:</span>
+            <span class="value" th:text="${paymentMethod}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

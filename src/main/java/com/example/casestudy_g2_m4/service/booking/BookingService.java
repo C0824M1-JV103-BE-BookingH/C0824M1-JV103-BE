@@ -1,13 +1,5 @@
 package com.example.casestudy_g2_m4.service.booking;
 
-import com.example.casestudy_g2_m4.model.*;
-import com.example.casestudy_g2_m4.repository.IBookingRepository;
-import com.example.casestudy_g2_m4.service.room.IRoomService;
-import com.example.casestudy_g2_m4.service.roomtype.IRoomTypeService;
-import com.example.casestudy_g2_m4.service.user.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -15,6 +7,23 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.casestudy_g2_m4.model.Booking;
+import com.example.casestudy_g2_m4.model.BookingDTO;
+import com.example.casestudy_g2_m4.model.BookingInfo;
+import com.example.casestudy_g2_m4.model.Payment;
+import com.example.casestudy_g2_m4.model.Room;
+import com.example.casestudy_g2_m4.model.RoomType;
+import com.example.casestudy_g2_m4.repository.IBookingRepository;
+import com.example.casestudy_g2_m4.repository.IPaymentRepository;
+import com.example.casestudy_g2_m4.service.bookinginfo.IBookingInfoService;
+import com.example.casestudy_g2_m4.service.room.IRoomService;
+import com.example.casestudy_g2_m4.service.roomtype.IRoomTypeService;
+import com.example.casestudy_g2_m4.service.user.IUserService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookingService implements IBookingService {
@@ -27,6 +36,10 @@ public class BookingService implements IBookingService {
     private IRoomTypeService roomTypeService;
     @Autowired
     private IRoomService roomService;
+    @Autowired
+    private IBookingInfoService bookingInfoService;
+    @Autowired
+    private IPaymentRepository paymentRepository;
 
     @Override
     public List<Booking> findAllBooking() {
@@ -40,34 +53,21 @@ public class BookingService implements IBookingService {
 
     @Override
     public void addBooking(BookingDTO bookingDTO) {
-        // Kiểm tra và xử lý User
-        User user = null;
-        if (bookingDTO.getUserName() != null && !bookingDTO.getUserName().trim().isEmpty()) {
-            User newUser = new User();
-            newUser.setName(bookingDTO.getUserName().trim());
-            newUser.setRole(User.Role.customer);
-            newUser.setStatus(User.Status.active);
-            user = userService.saveUser(newUser);
-            if (user.getId() == null) {
-                throw new RuntimeException("Không thể lưu người dùng mới vào cơ sở dữ liệu");
-            }
-        } else {
-            throw new RuntimeException("Vui lòng chọn hoặc nhập tên người dùng");
-        }
-
+        // Tạo BookingInfo mới
+        BookingInfo bookingInfo = new BookingInfo();
+        bookingInfo.setName(bookingDTO.getUserName().trim());
+        bookingInfo.setEmail(bookingDTO.getEmail());
+        bookingInfo = bookingInfoService.save(bookingInfo);
+        
         // Lấy tên loại phòng từ BookingDTO
         String enteredRoomTypeName = bookingDTO.getRoomType();
         if (enteredRoomTypeName == null || enteredRoomTypeName.trim().isEmpty()) {
             throw new RuntimeException("Vui lòng nhập loại phòng");
         }
-
-        // Chuẩn hóa tên loại phòng
         enteredRoomTypeName = Stream.of(enteredRoomTypeName.trim().toLowerCase().split("\\s+"))
                 .filter(word -> !word.isEmpty())
                 .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
                 .collect(Collectors.joining(" "));
-
-        // Kiểm tra RoomType
         String finalEnteredRoomTypeName = enteredRoomTypeName;
         RoomType roomType = roomTypeService.findByName(enteredRoomTypeName)
                 .orElseGet(() -> {
@@ -78,8 +78,6 @@ public class BookingService implements IBookingService {
                     newRoomType.setDescription("User-entered RoomType");
                     return roomTypeService.save(newRoomType);
                 });
-
-        // Tạo Room
         Room room = new Room();
         room.setRoomType(roomType);
         int randomFloor = new Random().nextInt(5) + 1;
@@ -87,19 +85,37 @@ public class BookingService implements IBookingService {
         room.setRoomNumber(randomRoomNumber);
         room.setStatus(Room.Status.available);
         room = roomService.save(room);
-
-        // Tạo Booking và ánh xạ dữ liệu
+        
         Booking booking = new Booking();
-        booking.setUser(user);
+        booking.setBookingInfo(bookingInfo);
         booking.setRoom(room);
         booking.setCheckIn(bookingDTO.getCheckIn());
         booking.setCheckOut(bookingDTO.getCheckOut());
         booking.setStatus(Booking.Status.pending);
         booking.setPaymentStatus(Booking.PaymentStatus.unpaid);
         booking.setCreatedAt(LocalDateTime.now());
-
-        // Lưu Booking
         addBooking(booking);
+
+        // Tạo payment mới
+        Payment payment = new Payment();
+        payment.setBooking(booking);
+        payment.setAmount(bookingDTO.getPrice());
+        if (bookingDTO.getPaymentMethod() != null) {
+            switch (bookingDTO.getPaymentMethod()) {
+                case "BANK_TRANSFER":
+                    payment.setMethod(Payment.Method.bank);
+                    break;
+                case "CARD":
+                    payment.setMethod(Payment.Method.card);
+                    break;
+                default:
+                    payment.setMethod(Payment.Method.cash);
+            }
+        } else {
+            payment.setMethod(Payment.Method.cash);
+        }
+        payment.setPaidAt(LocalDateTime.now());
+        paymentRepository.save(payment);
     }
 
     @Override
@@ -108,20 +124,23 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    @Transactional
     public void updateBooking(BookingDTO bookingDTO) {
         Booking exitingBoooking = bookingRepository.findById(bookingDTO.getId()).orElseThrow(() -> new RuntimeException("Booking not found"));
         exitingBoooking.setCheckIn(bookingDTO.getCheckIn());
         exitingBoooking.setCheckOut(bookingDTO.getCheckOut());
         exitingBoooking.setStatus(Booking.Status.valueOf(bookingDTO.getStatus()));
         exitingBoooking.setPaymentStatus(Booking.PaymentStatus.valueOf(bookingDTO.getPaymentStatus()));
+        // Cập nhật tên và email qua bookingInfo
         if (bookingDTO.getUserName() != null && !bookingDTO.getUserName().trim().isEmpty()) {
-            User user = exitingBoooking.getUser();
-            if (user == null) {
-                user = new User();
-                exitingBoooking.setUser(user);
+            BookingInfo bookingInfo = exitingBoooking.getBookingInfo();
+            if (bookingInfo == null) {
+                bookingInfo = new BookingInfo();
+                exitingBoooking.setBookingInfo(bookingInfo);
             }
-            user.setName(bookingDTO.getUserName().trim());
-            userService.saveUser(user);
+            bookingInfo.setName(bookingDTO.getUserName().trim());
+            bookingInfo.setEmail(bookingDTO.getEmail());
+            bookingInfoService.save(bookingInfo);
         }
         if (bookingDTO.getRoomType() != null && !bookingDTO.getRoomType().trim().isEmpty()) {
             Room room = exitingBoooking.getRoom();
@@ -144,14 +163,23 @@ public class BookingService implements IBookingService {
                 room.setRoomType(roomType);
                 roomService.save(room);
             }
-
-
         }
     }
 
     @Override
+    @Transactional
     public void deleteBooking(Integer id) {
-        bookingRepository.deleteById(id);
+        Optional<Booking> bookingOpt = bookingRepository.findById(id);
+        if (bookingOpt.isPresent()) {
+            Booking booking = bookingOpt.get();
+            paymentRepository.deleteByBookingId(id);
+
+            if (booking.getBookingInfo() != null) {
+                bookingInfoService.deleteById(booking.getBookingInfo().getId());
+            }
+
+            bookingRepository.deleteById(id);
+        }
     }
 
     @Override
@@ -164,4 +192,3 @@ public class BookingService implements IBookingService {
 
 
 }
-

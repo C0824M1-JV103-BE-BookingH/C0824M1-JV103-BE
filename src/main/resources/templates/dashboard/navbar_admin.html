@@ -13,6 +13,81 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- CSS Links -->
     <style>
+        /* Language Switcher Container */
+        .language-switcher-container {
+            position: relative;
+            margin-left: 15px;
+        }
+
+        /* Language Switcher Button */
+        .language-switcher {
+            background-color: #2a3743;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .language-switcher:hover {
+            background-color: #f39c12;
+            color: #fff;
+        }
+
+        /* Language Dropdown */
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #2a3743;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            min-width: 120px;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .language-dropdown.active {
+            display: block;
+        }
+
+        /* Language Options */
+        .language-option {
+            display: block;
+            padding: 10px 15px;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+
+        .language-option:hover {
+            background-color: #f39c12;
+            color: #fff;
+        }
+        .language-dropdown {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .language-dropdown.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ensure dropdown doesn't overlap with other elements */
+        .header .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         :root {
             --header-height: 3rem;
             --nav-width: 250px;
@@ -29,12 +104,7 @@
         }
 
         body {
-            position: relative;
-            margin: var(--header-height) 0 0 0;
-            padding: 0 1rem;
-            font-family: var(--body-font);
-            font-size: var(--normal-font-size);
-            transition: .5s;
+            font-family: Arial, "Times New Roman", sans-serif;
         }
 
         a {
@@ -257,13 +327,24 @@
             <!-- User Section -->
             <div class="col-auto d-flex justify-content-end align-items-center profile">
                 <div class="d-flex align-items-center">
-                    <div class="header_img">
-                        <img src="https://via.placeholder.com/40" alt="Profile">
+                    <div class="language-switcher-container">
+                        <button class="language-switcher" th:text="#{app.language}">LANGUAGE <i class='bx bx-chevron-down'></i></button>
+                        <div class="language-dropdown">
+                            <a href="?lang=en" class="language-option">English</a>
+                            <a href="?lang=vi" class="language-option">Vietnamese</a>
+                            <a href="?lang=fr" class="language-option">France</a>
+                            <a href="?lang=ja" class="language-option">日本語</a>
+                        </div>
                     </div>
+                    <div class="header_img">
+                        <img src="https://www.shutterstock.com/image-vector/user-icon-trendy-flat-style-600nw-418179856.jpg" alt="Profile">
+                    </div>
+
                     <div sec:authorize="isAuthenticated()">
                         <a th:text="#{app.logout}" th:href="@{/logout}" class="logout-btn">Logout</a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -281,28 +362,28 @@
             <!-- Navigation -->
             <a th:href="@{/hotel-inf}" class="nav_link">
                 <i class='bx bx-hotel nav_icon'></i>
-                <span class="nav_name">Hotel Information</span>
+                <span class="nav_name" th:text="#{app.hotel_infor}" ></span>
             </a>
             <div class="nav_list">
                 <a href="/dashboard" class="nav_link">
                     <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
-                    <span class="nav_name">Dashboard</span>
+                    <span class="nav_name" th:text="#{app.dashboard}" ></span>
                 </a>
                 <a href="/users" class="nav_link">
                     <i class='bx bx-user nav_icon'></i>
-                    <span class="nav_name">Users</span>
+                    <span class="nav_name" th:text="#{app.users}" ></span>
                 </a>
                 <a href="/list_booking" class="nav_link">
                     <i class='bx bx-calendar nav_icon'></i>
-                    <span class="nav_name">Booking</span>
+                    <span class="nav_name" th:text="#{app.booking}" ></span>
                 </a>
                 <a href="/rooms" class="nav_link">
                     <i class='bx bx-bed nav_icon'></i>
-                    <span class="nav_name">Rooms</span>
+                    <span class="nav_name" th:text="#{app.room}"></span>
                 </a>
                 <a href="/finance" class="nav_link">
                     <i class='bx bx-money nav_icon'></i>
-                    <span class="nav_name">Finance</span>
+                    <span class="nav_name" th:text="#{app.finance}" > </span>
                 </a>
             </div>
         </div>
@@ -349,6 +430,32 @@
 
 
 
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const languageOptions = document.querySelectorAll('.language-option');
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function(event) {
+                event.preventDefault();
+                const lang = this.getAttribute('href').split('=')[1];
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('lang', lang);
+                window.location.href = currentUrl.toString();
+            });
+        });
+
+        const languageButton = document.querySelector('.language-switcher');
+        const languageDropdown = document.querySelector('.language-dropdown');
+        languageButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            languageDropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', function(event) {
+            if (!languageButton.contains(event.target) && !languageDropdown.contains(event.target)) {
+                languageDropdown.classList.remove('active');
+            }
+        });
+    });
 </script>
 </body>
 </html>

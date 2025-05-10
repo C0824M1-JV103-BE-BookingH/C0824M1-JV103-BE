@@ -27,5 +27,15 @@ public class UserService implements IUserService {
         return userRepository.findById(id);
     }
 
+    @Override
+    public User findByEmail(String name) {
+        return null;
+    }
+
+    @Override
+    public void save(User existingUser) {
+
+    }
+
 
 }
