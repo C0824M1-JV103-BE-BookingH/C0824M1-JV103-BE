@@ -81,4 +81,8 @@ public class User {
                 ", status=" + status +
                 '}';
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d6544d0 (merge full code VanTai, VietTai, Nguyen, Dat, Hoang)

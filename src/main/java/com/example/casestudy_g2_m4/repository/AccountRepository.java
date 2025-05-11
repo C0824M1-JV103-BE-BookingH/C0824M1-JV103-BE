@@ -12,4 +12,8 @@ public interface AccountRepository extends JpaRepository<User,Long> {
     User findByRole (User.Role role);
     List<User> findAll();
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d6544d0 (merge full code VanTai, VietTai, Nguyen, Dat, Hoang)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -65,3 +66,72 @@
 
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Thêm Người Dùng</title>
+</head>
+<body>
+
+<div id="sidebar-container" th:insert="~{dashboard/navbar_admin}"></div>
+
+<div class="container">
+  <h2>Thêm người dùng mới</h2>
+
+  <form th:action="@{/profile/add-user}" method="post" th:object="${user}">
+    <!-- Họ tên -->
+    <div class="form-group mb-3">
+      <label for="name">Họ tên</label>
+      <input type="text" th:field="*{name}" class="form-control" placeholder="Nhập họ tên" required>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group mb-3">
+      <label for="email">Email</label>
+      <input type="email" th:field="*{email}" class="form-control" placeholder="Nhập email" required>
+    </div>
+
+    <!-- Mật khẩu -->
+    <div class="form-group mb-3">
+      <label for="password">Mật khẩu</label>
+      <input type="password" th:field="*{password}" class="form-control" placeholder="Nhập mật khẩu" required>
+    </div>
+
+    <!-- Số điện thoại -->
+    <div class="form-group mb-3">
+      <label for="phone">Số điện thoại</label>
+      <input type="text" th:field="*{phone}" class="form-control" placeholder="Nhập số điện thoại" required>
+    </div>
+
+    <!-- Vai trò -->
+    <div class="form-group mb-3">
+      <label for="role">Vai trò</label>
+      <select th:field="*{role}" class="form-control" required>
+        <option value="" disabled selected>-- Chọn vai trò --</option>
+        <option value="admin" th:selected="${user.role == 'admin'}">Quản trị viên</option>
+        <option value="staff" th:selected="${user.role == 'staff'}">Nhân viên</option>
+        <option value="customer" th:selected="${user.role == 'customer'}">Khách hàng</option>
+      </select>
+    </div>
+
+    <!-- Trạng thái -->
+    <div class="form-group mb-3">
+      <label for="status">Trạng thái</label>
+      <select th:field="*{status}" class="form-control" required>
+        <option value="" disabled selected>-- Chọn trạng thái --</option>
+        <option value="active" th:selected="${user.status == 'active'}">Hoạt động</option>
+        <option value="locked" th:selected="${user.status == 'locked'}">Khóa</option>
+        <option value="deleted" th:selected="${user.status == 'deleted'}">Đã xóa</option>
+      </select>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary">Thêm người dùng</button>
+  </form>
+</div>
+
+</body>
+</html>
+>>>>>>> d6544d0 (merge full code VanTai, VietTai, Nguyen, Dat, Hoang)
