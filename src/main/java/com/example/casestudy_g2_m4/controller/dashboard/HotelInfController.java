@@ -21,7 +21,7 @@ public class HotelInfController {
     public String showHotelInf(Model model){
         List<Hotel> list = hotelService.findAll();
         model.addAttribute("list",list);
-        return "dashboard/hotel_inf";
+        return "dashboard/hotel/hotel_inf";
     }
     @GetMapping("update-hotel-inf/{owner}")
     public String showUpdateHotelInf(@PathVariable(name = "owner") String owner, Model model) {

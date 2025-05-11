@@ -4,6 +4,7 @@
     <title>Hotel Reviews</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/book.css}">
     <style>
         body {
             background-color: #f8f9fa;
@@ -12,6 +13,7 @@
         .blog-container {
             max-width: 1200px;
             margin: 0 auto;
+            margin-top: 140px;
         }
         .blog-header {
             text-align: center;
@@ -169,4 +171,28 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        checkScroll();
+        window.addEventListener('scroll', checkScroll);
+
+        function checkScroll() {
+            console.log("Scroll event triggered");
+            console.log("Current pageYOffset:", window.pageYOffset);
+            const navbar = document.querySelector('.navbar');
+            const topBar = document.querySelector('.top-bar');
+
+            if (window.pageYOffset > 20) {
+                navbar.classList.add('scrolled');
+                topBar.classList.add('scrolled');
+                console.log("Scrolled class added");
+            } else {
+                navbar.classList.remove('scrolled');
+                topBar.classList.remove('scrolled');
+                console.log("Scrolled class removed");
+            }
+        }
+        console.log("Initial pageYOffset:", window.pageYOffset);
+    });
+</script>
 </html> 

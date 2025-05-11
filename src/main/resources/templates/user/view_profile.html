@@ -1,24 +1,90 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Chỉnh sửa thông tin</title>
+  <title>Danh sách người dùng</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      margin-top: 30px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .btn-add {
+      background-color: #2e7d32;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-add:hover {
+      background-color: #1b5e20;
+      color: white;
+    }
+    table {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    thead {
+      background-color: #e11414;
+      color: white;
+    }
+    td, th {
+      padding: 12px 15px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .btn-action {
+      background-color: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin: 2px;
+      display: inline-block;
+    }
+    .btn-action:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-<h2>Chỉnh sửa thông tin cá nhân</h2>
-<form th:action="@{/profile/edit}" th:object="${user}" method="post">
-  <label>Họ tên:</label>
-  <input type="text" th:field="*{name}" required/><br/>
+<div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
 
-  <label>Email:</label>
-  <input type="email" th:field="*{email}" required/><br/>
-
-  <label>Số điện thoại:</label>
-  <input type="text" th:field="*{phone}"/><br/>
-
-  <label>Mật khẩu mới:</label>
-  <input type="password" name="newPassword"/><br/>
-
-  <button type="submit">Lưu</button>
-</form>
+<div class="container">
+  <h2 class="text-center">Danh sách người dùng</h2>
+  <a href="/profile/add-user" class="btn-add">Thêm mới</a>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Họ tên</th>
+      <th>Email</th>
+      <th>SĐT</th>
+      <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.id}"></td>
+      <td th:text="${user.name}"></td>
+      <td th:text="${user.email}"></td>
+      <td th:text="${user.phone}"></td>
+      <td>
+        <a th:href="@{'/profile/edit'(id=${user.id})}" class="btn-action">Edit</a>
+        <a th:href="@{'/admin/users/block'(id=${user.id})}" class="btn-action">Delete</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 </body>
 </html>

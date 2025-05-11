@@ -4,6 +4,7 @@ import com.example.casestudy_g2_m4.model.User;
 import com.example.casestudy_g2_m4.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +18,10 @@ public class UserService implements IUserService {
         return userRepository.findAll() ;
     }
 
+    @Transactional
     @Override
     public User saveUser(User user) {
-       return userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
