@@ -47,7 +47,7 @@
                     <div class="booking-modal-content-popover">
                         <span class="close" id="closeBookingModal">×</span>
                         <h2 class="modal-title" th:text="#{app.datcho}">ĐẶT CHỖ</h2>
-                        <form th:action="@{/bookingNow}" method="get" class="booking-form-modal" th:object="${bookingDTO}">
+                        <form th:action="@{/bookingNow}" method="get" class="booking-form-modal">
                             <div class="row-modal">
                                 <div class="col-modal">
                                     <label for="checkIn" th:text="#{app.nhan}">Nhận phòng</label>
@@ -55,8 +55,7 @@
                                 </div>
                                 <div class="col-modal">
                                     <label for="checkOut" th:text="#{app.tra}">Trả phòng</label>
-                                    <input type="date" id="checkOut" name="checkOut" th:field="*{checkOut}" required>
-                                    <div class="error" th:if="${#fields.hasErrors('checkOut')}" th:errors="*{checkOut}"></div>
+                                    <input type="date" id="checkOut" name="checkOut" required>
                                 </div>
                             </div>
                             <button type="submit" class="btn-modal-submit" th:text="#{app.search}">TÌM KIẾM</button>
