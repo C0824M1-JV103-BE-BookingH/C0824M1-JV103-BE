@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Finance</title>
+</head>
+<style>
+    .btn-action {
+        background-color: #007bff;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        margin: 2px;
+        display: inline-block;
+    }
+    .btn-action:hover {
+        background-color: #0056b3;
+    }
+</style>
+<body>
+<div id="sidebar-container" style="display: block;" th:insert="~{dashboard/navbar_admin}"></div>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tổng giá</th>
+        <th>Phương thức</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="payment : ${payments}">
+        <td th:text="${payment.id}"></td>
+        <td th:text="${payment.amount}"></td>
+        <td th:text="${payment.method}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
