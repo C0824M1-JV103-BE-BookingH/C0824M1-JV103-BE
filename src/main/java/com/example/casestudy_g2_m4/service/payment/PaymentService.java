@@ -1,5 +1,6 @@
 package com.example.casestudy_g2_m4.service.payment;
 
+import com.example.casestudy_g2_m4.model.Payment;
 import com.example.casestudy_g2_m4.repository.IPaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,10 @@ public class PaymentService implements IPaymentService{
         }
         System.out.println("Dữ liệu doanh thu: " + revenueData);
         return revenueData;
+    }
+
+    @Override
+    public List<Payment> findAll() {
+        return paymentRepository.findAll();
     }
 }
