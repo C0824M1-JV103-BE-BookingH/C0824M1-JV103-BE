@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/navbar.css}">
   <link rel="stylesheet" th:href="@{/hotelhomecss.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <style>
     * {
       margin: 0;
@@ -21,7 +22,6 @@
     html, body {
       width: 100%;
       overflow-x: hidden;
-
     }
     body {
       font-family: Arial, "Times New Roman", sans-serif;
@@ -38,7 +38,7 @@
       display: block;
     }
     .content {
-      height: 2000px;
+      height: auto;
       background-color: #f9f9f9;
       padding: 20px;
       text-align: center;
@@ -65,6 +65,7 @@
       padding: 40px 20px;
       background-color: #f9f9f9;
       text-align: center;
+      margin-bottom: 40px;
     }
     .facilities-container h2 {
       font-family: 'Playfair Display', serif;
@@ -108,6 +109,200 @@
     .add-font {
       font-family: "Allison", handwriting !important;
     }
+    .famous-facilities-container {
+      padding: 60px 20px;
+      background-color: #fff;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .famous-facilities-container h2 {
+      font-family: 'Allison', handwriting;
+      font-size: 40px;
+      font-weight: 400;
+      color: #333;
+      margin-bottom: 60px;
+    }
+    .famous-facilities-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .famous-facility-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      max-width: 1000px;
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .famous-facility-image img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+    .famous-facility-info {
+      flex: 1;
+      padding: 30px;
+      text-align: left;
+    }
+    .famous-facility-info h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .famous-facility-info p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .read-more {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .read-more span {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+    /* Footer Styles */
+    .footer {
+      background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+      color: #fff;
+      padding: 60px 20px 40px;
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
+    }
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .footer-section {
+      flex: 1;
+      min-width: 220px;
+      padding: 0 15px;
+    }
+    .footer-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: #d4af37;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      width: 40px;
+      height: 2px;
+      background-color: #d4af37;
+    }
+    .footer-section p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 12px;
+      color: #e0e0e0;
+    }
+    .footer-section p a {
+      color: #e0e0e0;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-section p a:hover {
+      color: #d4af37;
+    }
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-section ul li {
+      margin-bottom: 12px;
+    }
+    .footer-section ul li a {
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      color: #e0e0e0;
+      text-decoration: none;
+      transition: color 0.3s ease, transform 0.3s ease;
+      display: inline-block;
+    }
+    .footer-section ul li a:hover {
+      color: #d4af37;
+      transform: translateX(5px);
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .social-icons a img {
+      width: 35px;
+      height: 35px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0.8;
+    }
+    .social-icons a img:hover {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    .footer-bottom {
+      margin-top: 30px;
+      padding-top: 20px;
+    }
+    .footer-bottom p {
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      color: #b0b0b0;
+    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .famous-facility-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      .famous-facility-info {
+        text-align: center;
+      }
+      .famous-facility-image img {
+        height: 400px;
+      }
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+      }
+      .footer-section {
+        margin-bottom: 20px;
+      }
+      .footer-section h3::after {
+        width: 30px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -140,41 +335,136 @@
     </div>
   </div>
 
-<div class="facilities-container">
-  <h2 class="add-font" >Hotel Facilities</h2>
-  <div class="facilities-list">
-    <div class="facility-item">
-      <img src="https://hotale.webhotel.vn/files/images/icon-moi/Group-40.png" alt="Parking Icon">
-      <p>Parking</p>
+  <!-- Hotel Facilities Section -->
+  <div class="facilities-container">
+    <h2 class="add-font">Hotel Facilities</h2>
+    <div class="facilities-list">
+      <div class="facility-item">
+        <img src="https://hotale.webhotel.vn/files/images/icon-moi/Group-40.png" alt="Parking Icon">
+        <p th:text="#{app.hotelfacilities}" >Parking</p>
+      </div>
+      <div class="facility-item">
+        <img src="https://hotale.webhotel.vn/files/images/icon-moi/kets.png" alt="Safe Icon">
+        <p th:text="#{app.safe}">Safe</p>
+      </div>
+      <div class="facility-item">
+        <img src="https://hotale.webhotel.vn/files/images/icon-moi/be-boi.png" alt="Swimming Pool Icon">
+        <p th:text="#{app.pool}">Swimming Pool</p>
+      </div>
+      <div class="facility-item">
+        <img src="https://hotale.webhotel.vn/files/images/icon-moi/an-sansg.png" alt="Breakfast Icon">
+        <p th:text="#{app.breakfast}">Have Breakfast</p>
+      </div>
+      <div class="facility-item">
+        <img src="https://hotale.webhotel.vn/files/images/icon-moi/gym.png" alt="Gym Icon">
+        <p th:text="#{app.gym}">Gym</p>
+      </div>
+      <div class="facility-item">
+        <img src="https://hotale.webhotel.vn/files/images/icon-moi/spa.png" alt="Spa Icon">
+        <p th:text="#{app.spa}">Spa</p>
+      </div>
+      <div class="facility-item">
+        <img src="https://hotale.webhotel.vn/files/images/icon-moi/wifi.png" alt="WiFi Icon">
+        <p th:text="#{app.wifi}">WiFi</p>
+      </div>
     </div>
-    <div class="facility-item">
-      <img src="https://hotale.webhotel.vn/files/images/icon-moi/kets.png" alt="Safe Icon">
-      <p>Safe</p>
-    </div>
-    <div class="facility-item">
-      <img src="https://hotale.webhotel.vn/files/images/icon-moi/be-boi.png" alt="Swimming Pool Icon">
-      <p>Swimming Pool</p>
-    </div>
-    <div class="facility-item">
-      <img src="https://hotale.webhotel.vn/files/images/icon-moi/an-sansg.png" alt="Breakfast Icon">
-      <p>Have Breakfast</p>
-    </div>
-    <div class="facility-item">
-      <img src="https://hotale.webhotel.vn/files/images/icon-moi/gym.png" alt="Gym Icon">
-      <p>Gym</p>
-    </div>
-    <div class="facility-item">
-      <img src="https://hotale.webhotel.vn/files/images/icon-moi/spa.png" alt="Spa Icon">
-      <p>Spa</p>
-    </div>
-    <div class="facility-item">
-      <img src="https://hotale.webhotel.vn/files/images/icon-moi/wifi.png" alt="WiFi Icon">
-      <p>WiFi</p>
+  </div>
+
+  <!-- Famous Facilities Section -->
+  <div class="famous-facilities-container">
+    <h2 class="add-font" th:text="#{app.visit}">Visit Our Famous Facilities</h2>
+    <div class="famous-facilities-list">
+      <!-- Restaurant -->
+      <div class="famous-facility-item">
+        <div class="famous-facility-image">
+          <img src="https://cdn-anleb.nitrocdn.com/tCRkDCsbycMpcUNHfNUFRoXsIImxjOzf/assets/images/optimized/rev-ab4ba92/www.danang.intercontinental.com/wp-content/uploads/2023/10/Barefoot-Exterior-low-res-1024x683.jpg" alt="Restaurant">
+        </div>
+        <div class="famous-facility-info">
+          <h3 th:text="#{app.restaurant}"></h3>
+          <p th:text="#{app.des_res}"></p>
+          <a href="#" class="read-more" th:text="#{app.read_more}"> <span>→</span></a>
+        </div>
+      </div>
+      <!-- Buffalo Bar -->
+      <div class="famous-facility-item">
+        <div class="famous-facility-info">
+          <h3 th:text="#{app.bar}"></h3>
+          <p th:text="#{app.des_bar}"></p>
+          <a href="#" class="read-more" th:text="#{app.read_more}"> <span>→</span></a>
+        </div>
+        <div class="famous-facility-image">
+          <img src="https://cdn-anleb.nitrocdn.com/tCRkDCsbycMpcUNHfNUFRoXsIImxjOzf/assets/images/optimized/rev-ab4ba92/www.danang.intercontinental.com/wp-content/uploads/2023/10/La-Maison-Buffalo-Bar-Done-1024x683.jpg" alt="Buffalo Bar">
+        </div>
+      </div>
+      <!-- Spa Hotale -->
+      <div class="famous-facility-item">
+        <div class="famous-facility-image">
+          <img src="https://cdn-anleb.nitrocdn.com/tCRkDCsbycMpcUNHfNUFRoXsIImxjOzf/assets/images/optimized/rev-ab4ba92/www.danang.intercontinental.com/wp-content/uploads/2024/10/Spa-7-scaled.jpg" alt="Spa Hotale">
+        </div>
+        <div class="famous-facility-info">
+          <h3 th:text="#{app.spa_hotel}"></h3>
+          <p th:text="#{app.des_spa}"></p>
+          <a href="#" class="read-more" th:text="#{app.read_more}">READ MORE <span>→</span></a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-</div>
 
+<script src="https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/1.2.0-beta.6/libs/oversea/index.js"></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+      bot_id: '7502055427619389441',
+    },
+    componentProps: {
+      title: 'Hotale Concierge',
+      primaryColor: '#d4af37',
+      backgroundColor: '#f9f9f9',
+      textColor: '#333',
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_voQZ7kvuauSkAeynQH2YW3kM3Tm5m9j6GYbYRqiToTfyO1fXXyhfbcfXc5ktw2St',
+      onRefreshToken: function () {
+        return 'pat_********';
+      }
+    }
+  });
+</script>
+
+<!-- Footer Section -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section hotel-info">
+      <h3>Hotale - Luxury Hotel</h3>
+      <p>1234 Luxury Lane, Paradise City, PC 56789</p>
+      <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="771e191118371f1803161b125914181a">[email&#160;protected]</a></p>
+      <p>Phone: +1 (555) 123-4567</p>
+    </div>
+    <div class="footer-section quick-links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Gallery</a></li>
+      </ul>
+    </div>
+    <div class="footer-section social-media">
+      <h3>Follow Us</h3>
+      <div class="social-icons">
+        <a href="#"><i class="bi bi-facebook">FaceBook</i></a>
+        <a href="#"><i class="bi bi-instagram"></i>Instagram</a>
+        <a href="#"><i class="bi bi-twitter"></i>Twitter</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Hotale - Luxury Hotel. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     checkScroll();
@@ -197,8 +487,6 @@
       }
     }
     console.log("Initial pageYOffset:", window.pageYOffset);
-
-  
   });
 </script>
 </body>
