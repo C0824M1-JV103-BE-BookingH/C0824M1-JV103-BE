@@ -53,6 +53,8 @@ public class BookingService implements IBookingService {
 
     @Override
     public void addBooking(BookingDTO bookingDTO) {
+        validateBookingDates(bookingDTO.getCheckIn(), bookingDTO.getCheckOut());
+
         // Tạo BookingInfo mới
         BookingInfo bookingInfo = new BookingInfo();
         bookingInfo.setName(bookingDTO.getUserName().trim());
@@ -116,6 +118,25 @@ public class BookingService implements IBookingService {
         }
         payment.setPaidAt(LocalDateTime.now());
         paymentRepository.save(payment);
+    }
+
+    private void validateBookingDates(LocalDateTime checkIn, LocalDateTime checkOut) {
+        if (checkIn == null || checkOut == null) {
+            throw new IllegalArgumentException("Ngày check-in và check-out không được để trống");
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        if (checkIn.isBefore(now)) {
+            throw new IllegalArgumentException("Ngày check-in phải là ngày trong tương lai");
+        }
+
+        if (checkOut.isBefore(checkIn)) {
+            throw new IllegalArgumentException("Ngày check-out phải sau ngày check-in");
+        }
+
+        if (checkOut.isBefore(checkIn.plusHours(24))) {
+            throw new IllegalArgumentException("Ngày check-out phải sau ngày check-in ít nhất 24 giờ");
+        }
     }
 
     @Override

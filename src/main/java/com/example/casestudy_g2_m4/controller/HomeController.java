@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.example.casestudy_g2_m4.model.ResortImage;
+import com.example.casestudy_g2_m4.service.Gallary.IGalleryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +29,9 @@ public class HomeController {
     @Autowired
     private IRoomTypeService roomTypeService;
 
+    @Autowired
+    private IGalleryService galleryService;
+
     @GetMapping
     public String home(Model model, @RequestParam(value = "lang", required = false) String lang) {
         List<Hotel> list = hotelService.findAll();
@@ -40,7 +45,14 @@ public class HomeController {
     }
 
     @GetMapping("/gallery")
-    public String gallery(Model model, @RequestParam(value = "lang", required = false) String lang) {
+    public String gallery(Model model, @RequestParam(value = "lang", required = false) String lang,
+    @RequestParam(value = "category", required = false) String category) {
+//        List<ResortImage>  images;
+//        if(category != null && !category.isEmpty()) {
+//            images = galleryService.findByCategory(category);
+//        } else {
+//            images = galleryService.
+//        }
         return "gallery_page";
     }
 
